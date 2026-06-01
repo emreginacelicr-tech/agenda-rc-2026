@@ -1010,13 +1010,19 @@
   <div class="admin-login-box" id="admin-login-box">
     <div style="font-size:40px;margin-bottom:10px;">🔐</div>
     <h2>Área Exclusiva da Direção</h2>
-    <p>Digite a senha e o token para acessar o gerenciamento de eventos</p>
+    <p>E.M. Regina Celi da Silva Cerdeira</p>
     <input type="password" class="admin-input" id="admin-senha" placeholder="Senha da Direção" onkeydown="if(event.key==='Enter')loginAdmin()">
     <span class="aviso-erro" id="admin-erro">Senha incorreta. Tente novamente.</span>
-    <input type="password" class="admin-input" id="admin-token" placeholder="Token GitHub (ghp_...)" onkeydown="if(event.key==='Enter')loginAdmin()" style="margin-top:4px">
-    <span class="aviso-erro" id="admin-token-erro">Token inválido. Deve começar com ghp_</span>
-    <div style="background:#f8f0ff;border-radius:8px;padding:8px 12px;font-size:11px;color:#555;margin-bottom:12px;text-align:left;line-height:1.5;">
-      💡 O token fica apenas na memória desta sessão e nunca é gravado no arquivo.
+    <div id="token-row">
+      <input type="password" class="admin-input" id="admin-token" placeholder="Token GitHub (ghp_...)" onkeydown="if(event.key==='Enter')loginAdmin()" style="margin-top:4px">
+      <span class="aviso-erro" id="admin-token-erro">Token inválido. Deve começar com ghp_</span>
+      <div style="background:#f8f0ff;border-radius:8px;padding:8px 12px;font-size:11px;color:#555;margin-bottom:12px;text-align:left;line-height:1.5;">
+        💡 O token será salvo neste dispositivo. Nas próximas vezes só precisará da senha.
+      </div>
+    </div>
+    <div id="token-salvo-msg" style="display:none;background:#e8f5e9;border-radius:8px;padding:8px 12px;font-size:12px;color:#1a5c38;margin-bottom:12px;text-align:left;">
+      ✅ Token salvo neste dispositivo — só precisa da senha!
+      <span style="float:right;cursor:pointer;color:#888" onclick="esquecerToken()">🗑️ Remover</span>
     </div>
     <button class="btn-verde" onclick="loginAdmin()">Entrar</button>
     <div style="margin-top:12px;">
@@ -1704,7 +1710,21 @@ function abrirAdmin() {
     document.getElementById('admin-login-box').style.display = 'none';
     document.getElementById('admin-painel').style.display = 'flex';
     renderAdminLista();
+    return;
   }
+  // Verificar se token já está salvo neste dispositivo
+  try {
+    const tokenSalvo = localStorage.getItem('rc2026_ghtoken');
+    if (tokenSalvo) {
+      document.getElementById('admin-token').value = tokenSalvo;
+      // Ocultar campo de token e mostrar indicador
+      document.getElementById('token-row').style.display = 'none';
+      document.getElementById('token-salvo-msg').style.display = 'block';
+    } else {
+      document.getElementById('token-row').style.display = 'block';
+      document.getElementById('token-salvo-msg').style.display = 'none';
+    }
+  } catch(_) {}
 }
 
 function loginAdmin() {
@@ -1717,6 +1737,8 @@ function loginAdmin() {
     }
     loggedIn = true;
     ghToken = tokenInput;
+    // Salvar token no localStorage do dispositivo
+    try { localStorage.setItem('rc2026_ghtoken', tokenInput); } catch(_) {}
     document.getElementById('admin-login-box').style.display = 'none';
     document.getElementById('admin-painel').style.display = 'flex';
     document.getElementById('admin-erro').classList.remove('visivel');
@@ -1733,6 +1755,15 @@ function fecharAdminOverlay() {
   document.getElementById('admin-overlay').classList.remove('open');
   document.getElementById('admin-senha').value = '';
   document.getElementById('admin-erro').classList.remove('visivel');
+}
+
+function esquecerToken() {
+  if (confirm('Remover o token salvo neste dispositivo?')) {
+    try { localStorage.removeItem('rc2026_ghtoken'); } catch(_) {}
+    document.getElementById('token-row').style.display = 'block';
+    document.getElementById('token-salvo-msg').style.display = 'none';
+    document.getElementById('admin-token').value = '';
+  }
 }
 
 function confirmarLogout() {
