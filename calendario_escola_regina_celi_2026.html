@@ -1,0 +1,2210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agenda Escolar 2026 — E.M. Regina Celi</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde: #1a5c38;
+    --verde-medio: #2e7d4f;
+    --verde-claro: #4caf80;
+    --amarelo: #f5c842;
+    --amarelo-claro: #fdf3c0;
+    --laranja: #e07a20;
+    --vermelho: #c0392b;
+    --azul: #1565c0;
+    --azul-claro: #e3f0ff;
+    --roxo: #6a1b9a;
+    --cinza-bg: #f4f6f2;
+    --cinza-escuro: #2c2c2c;
+    --branco: #ffffff;
+    --sombra: 0 2px 12px rgba(0,0,0,0.10);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cinza-bg);
+    color: var(--cinza-escuro);
+    min-height: 100vh;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    background: var(--verde);
+    color: white;
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 3px 16px rgba(0,0,0,0.25);
+  }
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 28px;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+  }
+  .header-logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .header-logo .emblema {
+    width: 48px; height: 48px;
+    background: var(--amarelo);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--verde);
+    flex-shrink: 0;
+  }
+  .header-logo .titulo h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px; font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .header-logo .titulo p {
+    font-size: 11px; opacity: 0.78; margin-top: 1px;
+  }
+  .header-nav {
+    display: flex; gap: 8px;
+  }
+  .nav-btn {
+    background: rgba(255,255,255,0.12);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 6px;
+    padding: 7px 15px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .nav-btn:hover, .nav-btn.active {
+    background: var(--amarelo);
+    color: var(--verde);
+    border-color: var(--amarelo);
+    font-weight: 600;
+  }
+  .header-bimestre {
+    display: flex;
+    gap: 0;
+    background: rgba(0,0,0,0.18);
+    padding: 8px 28px;
+    overflow-x: auto;
+  }
+  .bimestre-tag {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-right: 8px;
+    white-space: nowrap;
+    letter-spacing: 0.4px;
+  }
+  .b1 { background: #e8f5e9; color: #1a5c38; }
+  .b2 { background: #fff3e0; color: #bf6000; }
+  .b3 { background: #e3f2fd; color: #0d47a1; }
+  .b4 { background: #f3e5f5; color: #4a148c; }
+  .legend-item { display: flex; align-items: center; gap: 5px; margin-right: 10px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ===== VIEWS ===== */
+  .view { display: none; padding: 24px 28px; }
+  .view.active { display: block; }
+
+  /* ===== VISÃO GERAL / ANUAL ===== */
+  .anual-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  @media (max-width: 900px) { .anual-grid { grid-template-columns: repeat(2,1fr); } }
+  @media (max-width: 580px) { .anual-grid { grid-template-columns: 1fr; } }
+
+  .mes-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--sombra);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.18s, box-shadow 0.18s;
+  }
+  .mes-card:hover { transform: translateY(-3px); box-shadow: 0 6px 24px rgba(0,0,0,0.14); }
+  .mes-card-header {
+    padding: 12px 16px 8px;
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .mes-card-header .dias-letivos {
+    font-size: 11px;
+    font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+    opacity: 0.85;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .mini-cal {
+    padding: 4px 10px 10px;
+  }
+  .mini-cal-dias {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    font-size: 10px;
+  }
+  .mini-cal-header { font-weight: 600; text-align: center; padding: 2px; color: #888; font-size: 9px; }
+  .mini-dia {
+    text-align: center;
+    padding: 3px 1px;
+    border-radius: 4px;
+    font-size: 10px;
+    cursor: pointer;
+    position: relative;
+    min-height: 20px;
+    transition: background 0.12s;
+  }
+  .mini-dia:hover { background: var(--amarelo-claro); }
+  .mini-dia.hoje { background: var(--amarelo); font-weight: 700; border-radius: 50%; }
+  .mini-dia.tem-evento { font-weight: 600; }
+  .mini-dia .evento-dot {
+    position: absolute;
+    bottom: 1px;
+    left: 50%; transform: translateX(-50%);
+    width: 4px; height: 4px;
+    border-radius: 50%;
+  }
+  .mes-eventos-preview {
+    padding: 6px 12px 10px;
+    border-top: 1px solid #f0f0f0;
+  }
+  .mes-eventos-preview .ev-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 11px;
+    padding: 2px 0;
+    color: #333;
+  }
+  .ev-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ===== MENSAL ===== */
+  .mes-view-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+  .mes-nav-btn {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .mes-nav-btn:hover { background: var(--amarelo); }
+  .mes-titulo {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--verde);
+    flex: 1;
+  }
+  .cal-grid {
+    background: white;
+    border-radius: 14px;
+    box-shadow: var(--sombra);
+    overflow: hidden;
+  }
+  .cal-dias-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background: var(--verde);
+    color: white;
+  }
+  .cal-dia-header {
+    text-align: center;
+    padding: 10px 4px;
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .cal-body {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+  }
+  .cal-cell {
+    min-height: 100px;
+    border-right: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    padding: 6px;
+    position: relative;
+    vertical-align: top;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .cal-cell:hover { background: #f9fde8; }
+  .cal-cell.outro-mes { opacity: 0.32; pointer-events: none; }
+  .cal-cell.hoje-cell { background: var(--amarelo-claro); }
+  .cal-cell.feriado-cell { background: #fff5f5; }
+  .cal-cell.recesso-cell { background: #f0f8ff; }
+  .cal-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: #444;
+  }
+  .cal-cell.hoje-cell .cal-num {
+    background: var(--amarelo);
+    color: var(--verde);
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 4px;
+  }
+  .cal-evento {
+    font-size: 10px;
+    padding: 2px 5px;
+    border-radius: 4px;
+    margin-bottom: 2px;
+    color: white;
+    font-weight: 500;
+    line-height: 1.3;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .cal-evento:hover { opacity: 0.85; }
+  .cal-evento.mais { background: #bbb; cursor: pointer; }
+  .tipo-feriado { background: #c0392b; }
+  .tipo-institucional { background: #1565c0; }
+  .tipo-projeto { background: #1a5c38; }
+  .tipo-comemorativo { background: #e07a20; }
+  .tipo-pedagogico { background: #6a1b9a; }
+  .tipo-reuniao { background: #00695c; }
+  .tipo-recesso { background: #546e7a; }
+  .tipo-formacao { background: #4527a0; }
+
+  /* ===== PAINEL LATERAL DE EVENTO ===== */
+  .painel-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.38);
+    z-index: 200;
+    display: none;
+  }
+  .painel-overlay.open { display: block; }
+  .painel-lateral {
+    position: fixed;
+    top: 0; right: 0;
+    width: 380px;
+    height: 100vh;
+    background: white;
+    box-shadow: -4px 0 24px rgba(0,0,0,0.18);
+    z-index: 201;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  .painel-lateral.open { transform: translateX(0); }
+  .painel-header {
+    background: var(--verde);
+    color: white;
+    padding: 18px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .painel-header h2 { font-family: 'Syne', sans-serif; font-size: 16px; }
+  .painel-header p { font-size: 13px; opacity: 0.8; margin-top: 4px; }
+  .painel-close {
+    background: none; border: none; color: white;
+    font-size: 22px; cursor: pointer; opacity: 0.7;
+    padding: 0 4px;
+  }
+  .painel-body { flex: 1; overflow-y: auto; padding: 16px; }
+  .ev-card-full {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 12px;
+    border-left: 4px solid var(--verde);
+  }
+  .ev-card-full h3 { font-family: 'Syne', sans-serif; font-size: 14px; margin-bottom: 5px; }
+  .ev-card-full .ev-meta { font-size: 12px; color: #666; margin-bottom: 4px; }
+  .ev-card-full .ev-desc { font-size: 12px; color: #444; margin-top: 6px; line-height: 1.5; }
+  .ev-badge {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 9px;
+    border-radius: 20px;
+    color: white;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  /* ===== LISTA ===== */
+  .lista-filtros {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+  .filtro-btn {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    background: white;
+    font-size: 12px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+  }
+  .filtro-btn.active, .filtro-btn:hover {
+    background: var(--verde);
+    color: white;
+    border-color: var(--verde);
+  }
+  .lista-mes-grupo {
+    margin-bottom: 24px;
+  }
+  .lista-mes-titulo {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--verde);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 8px 0 6px;
+    border-bottom: 2px solid var(--verde-claro);
+    margin-bottom: 10px;
+  }
+  .lista-ev-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 14px;
+    background: white;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+    cursor: pointer;
+    transition: box-shadow 0.15s;
+  }
+  .lista-ev-item:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+  .lista-ev-data {
+    text-align: center;
+    min-width: 46px;
+    background: var(--cinza-bg);
+    border-radius: 8px;
+    padding: 6px 6px;
+    flex-shrink: 0;
+  }
+  .lista-ev-data .dia { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: var(--verde); line-height: 1; }
+  .lista-ev-data .mesnome { font-size: 10px; text-transform: uppercase; color: #888; font-weight: 600; }
+  .lista-ev-info h4 { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+  .lista-ev-info p { font-size: 12px; color: #666; }
+
+  /* ===== ADMIN ===== */
+  .admin-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 300; display: none;
+    align-items: center; justify-content: center;
+  }
+  .admin-overlay.open { display: flex; }
+  .admin-login-box {
+    background: white;
+    border-radius: 16px;
+    padding: 36px 32px;
+    width: 340px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+    text-align: center;
+  }
+  .admin-login-box h2 { font-family: 'Syne', sans-serif; font-size: 18px; color: var(--verde); margin-bottom: 8px; }
+  .admin-login-box p { font-size: 13px; color: #777; margin-bottom: 22px; }
+  .admin-input {
+    width: 100%; padding: 11px 14px;
+    border: 1.5px solid #ccc; border-radius: 8px;
+    font-family: 'DM Sans', sans-serif; font-size: 14px;
+    outline: none; margin-bottom: 14px;
+    transition: border-color 0.2s;
+  }
+  .admin-input:focus { border-color: var(--verde); }
+  .btn-verde {
+    background: var(--verde); color: white;
+    border: none; border-radius: 8px;
+    padding: 11px 28px;
+    font-family: 'Syne', sans-serif;
+    font-size: 14px; font-weight: 700;
+    cursor: pointer; width: 100%;
+    transition: background 0.2s;
+  }
+  .btn-verde:hover { background: var(--verde-medio); }
+  .btn-danger {
+    background: #c0392b; color: white;
+    border: none; border-radius: 8px;
+    padding: 8px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px; cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-danger:hover { background: #a93226; }
+  .btn-secundario {
+    background: white; color: var(--verde);
+    border: 1.5px solid var(--verde); border-radius: 8px;
+    padding: 8px 18px; font-family: 'DM Sans', sans-serif;
+    font-size: 13px; cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-secundario:hover { background: var(--cinza-bg); }
+  .admin-painel {
+    background: white;
+    border-radius: 16px;
+    padding: 0;
+    width: 680px;
+    max-width: 95vw;
+    max-height: 88vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+  }
+  .admin-painel-header {
+    background: var(--verde);
+    color: white;
+    padding: 18px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .admin-painel-header h2 { font-family: 'Syne', sans-serif; font-size: 17px; }
+  .admin-painel-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 24px;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+  .form-row.single { grid-template-columns: 1fr; }
+  .form-group label { display: block; font-size: 12px; font-weight: 600; color: #555; margin-bottom: 5px; }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; padding: 9px 12px;
+    border: 1.5px solid #ddd; border-radius: 8px;
+    font-family: 'DM Sans', sans-serif; font-size: 13px;
+    outline: none; transition: border-color 0.2s;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--verde); }
+  .form-group textarea { resize: vertical; min-height: 70px; }
+  .admin-eventos-lista {
+    margin-top: 24px;
+    border-top: 1px solid #eee;
+    padding-top: 16px;
+  }
+  .admin-ev-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 8px;
+  }
+  .admin-ev-item .ev-nome { flex: 1; font-size: 13px; }
+  .admin-ev-item .ev-data-txt { font-size: 12px; color: #888; min-width: 80px; }
+  .admin-actions { display: flex; gap: 8px; padding: 14px 24px; border-top: 1px solid #eee; flex-shrink: 0; }
+  .aviso-erro { color: #c0392b; font-size: 12px; margin-top: 4px; display: none; }
+  .aviso-erro.visivel { display: block; }
+  .lock-icon { font-size: 14px; opacity: 0.7; }
+
+  /* Tooltips / Info rápida */
+  .tooltip-container { position: relative; display: inline; }
+  
+  .semana-label {
+    font-size: 10px;
+    padding: 1px 5px;
+    background: var(--amarelo);
+    color: var(--verde);
+    border-radius: 3px;
+    font-weight: 700;
+    display: inline-block;
+    margin-bottom: 2px;
+  }
+
+  /* Legenda cores */
+  .legenda-cores {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+    background: white;
+    padding: 10px 14px;
+    border-radius: 10px;
+    box-shadow: var(--sombra);
+  }
+  .legenda-item {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 11px; color: #555;
+  }
+  .legenda-cor {
+    width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0;
+  }
+
+  /* Abas admin */
+  .admin-tabs { display: flex; gap: 0; border-bottom: 1px solid #eee; margin-bottom: 16px; }
+  .admin-tab {
+    padding: 10px 18px; cursor: pointer;
+    font-size: 13px; font-weight: 600;
+    color: #888; border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+  }
+  .admin-tab.active { color: var(--verde); border-bottom-color: var(--verde); }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #f1f1f1; }
+  ::-webkit-scrollbar-thumb { background: #bbb; border-radius: 3px; }
+
+  /* Badges de bimestre no cal */
+  .bim-indicator {
+    font-size: 9px; font-weight: 700; padding: 1px 5px;
+    border-radius: 3px; display: inline-block;
+    margin-bottom: 2px;
+  }
+  .bim-1 { background: #e8f5e9; color: #1a5c38; }
+  .bim-2 { background: #fff3e0; color: #bf6000; }
+  .bim-3 { background: #e3f2fd; color: #0d47a1; }
+  .bim-4 { background: #f3e5f5; color: #4a148c; }
+
+  /* ===== AUDITÓRIO ===== */
+  --aud: #7b3fa0;
+  .aud-hero {
+    background: linear-gradient(135deg, #3d1a5c 0%, #7b3fa0 50%, #b06ed4 100%);
+    border-radius: 14px;
+    padding: 28px 32px 22px;
+    color: white;
+    margin-bottom: 22px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    box-shadow: 0 4px 20px rgba(123,63,160,0.35);
+  }
+  .aud-hero-icon {
+    font-size: 52px;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+    flex-shrink: 0;
+  }
+  .aud-hero h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+  .aud-hero p { font-size: 13px; opacity: 0.82; line-height: 1.5; }
+  .aud-hero .aud-stats {
+    display: flex; gap: 20px; margin-top: 12px;
+  }
+  .aud-stat {
+    background: rgba(255,255,255,0.15);
+    border-radius: 8px;
+    padding: 8px 14px;
+    text-align: center;
+  }
+  .aud-stat .num { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; }
+  .aud-stat .lbl { font-size: 10px; opacity: 0.78; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  .aud-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 20px;
+    align-items: start;
+  }
+  @media (max-width: 900px) { .aud-layout { grid-template-columns: 1fr; } }
+
+  /* Timeline */
+  .aud-timeline-wrap {
+    background: white;
+    border-radius: 14px;
+    box-shadow: var(--sombra);
+    overflow: hidden;
+  }
+  .aud-timeline-header {
+    padding: 14px 20px;
+    background: #f8f0ff;
+    border-bottom: 1px solid #e8d5f5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .aud-timeline-header h3 { font-family: 'Syne', sans-serif; font-size: 14px; color: #4a1a7a; }
+  .aud-mes-nav { display: flex; gap: 6px; align-items: center; }
+  .aud-mes-nav button {
+    background: #e8d5f5; border: none; border-radius: 6px;
+    width: 28px; height: 28px; cursor: pointer;
+    font-size: 14px; transition: background 0.15s;
+  }
+  .aud-mes-nav button:hover { background: #7b3fa0; color: white; }
+  .aud-mes-nav span { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: #4a1a7a; min-width: 120px; text-align: center; }
+
+  .aud-timeline-body { padding: 16px 20px; }
+  .aud-dia-grupo { margin-bottom: 16px; }
+  .aud-dia-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px; font-weight: 700;
+    color: #7b3fa0;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .aud-dia-label::after { content: ''; flex: 1; height: 1px; background: #e8d5f5; }
+  .aud-slot {
+    display: flex;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1px solid transparent;
+  }
+  .aud-slot:hover { border-color: #c9a0e0; box-shadow: 0 2px 8px rgba(123,63,160,0.12); }
+  .aud-slot-hora {
+    min-width: 80px;
+    font-family: 'Syne', sans-serif;
+    font-size: 12px; font-weight: 700;
+    color: white;
+    background: #7b3fa0;
+    border-radius: 6px;
+    padding: 6px 8px;
+    text-align: center;
+    flex-shrink: 0;
+    display: flex; flex-direction: column; justify-content: center;
+    line-height: 1.3;
+  }
+  .aud-slot-hora .hora-ate { font-size: 10px; opacity: 0.82; font-weight: 400; }
+  .aud-slot-info { flex: 1; }
+  .aud-slot-info h4 { font-size: 13px; font-weight: 600; margin-bottom: 3px; color: #2c2c2c; }
+  .aud-slot-info p { font-size: 11px; color: #777; line-height: 1.4; }
+  .aud-pub-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 10px; padding: 2px 8px;
+    border-radius: 20px; font-weight: 600;
+    flex-shrink: 0; white-space: nowrap;
+    margin-top: 4px;
+  }
+  /* público */
+  .pub-comunidade { background: #e8f5e9; color: #1a5c38; }
+  .pub-alunos     { background: #e3f0ff; color: #0d47a1; }
+  .pub-educadores { background: #fff3e0; color: #bf6000; }
+  .pub-familias   { background: #fce4ec; color: #880e4f; }
+  .pub-sme        { background: #ede7f6; color: #4a1a7a; }
+  .pub-externo    { background: #f3e5f5; color: #6a1b9a; }
+  .pub-turno      { background: #e0f7fa; color: #006064; }
+
+  /* Categoria cor borda */
+  .cat-projeto    { background: #fdf5ff; border-left: 3px solid #7b3fa0 !important; }
+  .cat-sme        { background: #f0ebff; border-left: 3px solid #4a1a7a !important; }
+  .cat-palestra   { background: #fff8f0; border-left: 3px solid #e07a20 !important; }
+  .cat-turma      { background: #f0f9ff; border-left: 3px solid #1565c0 !important; }
+  .cat-externo    { background: #f9f0ff; border-left: 3px solid #880e4f !important; }
+
+  .aud-vazio {
+    text-align: center; padding: 30px;
+    color: #bbb; font-size: 13px;
+  }
+
+  /* Painel lateral auditório */
+  .aud-painel-slot {
+    background: #f8f0ff;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 14px;
+    border-left: 4px solid #7b3fa0;
+  }
+  .aud-painel-slot h3 { font-family: 'Syne', sans-serif; font-size: 15px; margin-bottom: 8px; color: #3d1a5c; }
+  .aud-painel-meta { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+  .aud-painel-meta span { font-size: 12px; color: #555; display: flex; align-items: center; gap: 6px; }
+  .aud-painel-desc { font-size: 12px; color: #444; line-height: 1.6; margin-top: 8px; padding-top: 8px; border-top: 1px solid #e0c8f0; }
+
+  /* Sidebar próximos agendamentos */
+  .aud-proximos {
+    background: white;
+    border-radius: 14px;
+    box-shadow: var(--sombra);
+    overflow: hidden;
+  }
+  .aud-proximos-header {
+    background: #3d1a5c;
+    color: white;
+    padding: 14px 18px;
+  }
+  .aud-proximos-header h3 { font-family: 'Syne', sans-serif; font-size: 14px; }
+  .aud-proximos-header p { font-size: 11px; opacity: 0.75; margin-top: 2px; }
+  .aud-proximo-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid #f0e8ff;
+    cursor: pointer;
+    transition: background 0.12s;
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .aud-proximo-item:hover { background: #f8f0ff; }
+  .aud-proximo-item:last-child { border-bottom: none; }
+  .aud-proximo-data {
+    background: #7b3fa0; color: white;
+    border-radius: 8px; padding: 5px 8px;
+    text-align: center; min-width: 38px; flex-shrink: 0;
+  }
+  .aud-proximo-data .pd { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800; line-height: 1; }
+  .aud-proximo-data .pm { font-size: 9px; text-transform: uppercase; opacity: 0.85; }
+  .aud-proximo-info h4 { font-size: 12px; font-weight: 600; margin-bottom: 2px; }
+  .aud-proximo-info p { font-size: 11px; color: #888; }
+
+  /* Legenda auditório */
+  .aud-legenda {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 16px;
+  }
+  .aud-legenda-item {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 11px; color: #555;
+    background: white; padding: 4px 10px;
+    border-radius: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .aud-legenda-cor { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+  /* Botão novo agendamento */
+  .btn-aud-novo {
+    background: #7b3fa0; color: white;
+    border: none; border-radius: 8px;
+    padding: 8px 16px; font-family: 'Syne', sans-serif;
+    font-size: 12px; font-weight: 700; cursor: pointer;
+    transition: background 0.15s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .btn-aud-novo:hover { background: #5c2d80; }
+
+  /* Painel auditório overlay */
+  .aud-detalhe-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.4); z-index: 200; display: none;
+  }
+  .aud-detalhe-overlay.open { display: block; }
+  .aud-detalhe-painel {
+    position: fixed; top: 0; right: 0;
+    width: 400px; height: 100vh;
+    background: white;
+    box-shadow: -4px 0 24px rgba(0,0,0,0.18);
+    z-index: 201;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    display: flex; flex-direction: column;
+  }
+  .aud-detalhe-painel.open { transform: translateX(0); }
+  .aud-detalhe-header {
+    background: linear-gradient(135deg, #3d1a5c, #7b3fa0);
+    color: white;
+    padding: 18px 20px;
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .aud-detalhe-header h2 { font-family: 'Syne', sans-serif; font-size: 15px; }
+  .aud-detalhe-header p { font-size: 12px; opacity: 0.8; margin-top: 3px; }
+  .aud-detalhe-body { flex: 1; overflow-y: auto; padding: 18px; }
+
+  /* Form agendamento no admin */
+  .aud-admin-wrap {
+    border-top: 2px solid #e8d5f5;
+    margin-top: 20px;
+    padding-top: 16px;
+  }
+  .aud-admin-wrap h3 {
+    font-family: 'Syne', sans-serif; font-size: 14px;
+    color: #7b3fa0; margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-top">
+    <div class="header-logo">
+      <div class="emblema">RC</div>
+      <div class="titulo">
+        <h1>E.M. Regina Celi da Silva Cerdeira — Centro de Referência</h1>
+        <p>Agenda Escolar 2026 · Duque de Caxias · Secretaria Municipal de Educação</p>
+      </div>
+    </div>
+    <div class="header-nav">
+      <button class="nav-btn active" onclick="mostrarView('anual')">Visão Anual</button>
+      <button class="nav-btn" onclick="mostrarView('mensal')">Mensal</button>
+      <button class="nav-btn" onclick="mostrarView('lista')">Lista</button>
+      <button class="nav-btn" onclick="mostrarView('auditorio')" style="background:rgba(123,63,160,0.25);border-color:rgba(180,120,220,0.5)">🎭 Auditório</button>
+      <button class="nav-btn lock-icon" onclick="abrirAdmin()" title="Área da Direção">🔒 Direção</button>
+    </div>
+  </div>
+  <div class="header-bimestre">
+    <span class="bimestre-tag b1">1º Bimestre: 05/02–30/04 · 56 dias letivos</span>
+    <span class="bimestre-tag b2">2º Bimestre: 04/05–17/07 · 54 dias letivos</span>
+    <span class="bimestre-tag b3">3º Bimestre: 03/08–30/09 · 42 dias letivos</span>
+    <span class="bimestre-tag b4">4º Bimestre: 01/10–21/12 · 54 dias letivos</span>
+    <span class="bimestre-tag" style="background:#fff;color:#333;">Total: 206 dias letivos</span>
+  </div>
+</header>
+
+<!-- VIEW ANUAL -->
+<div class="view active" id="view-anual">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+    <h2 style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--verde);">Calendário Anual 2026</h2>
+    <div class="legenda-cores">
+      <div class="legenda-item"><div class="legenda-cor" style="background:#c0392b"></div>Feriado/Recesso</div>
+      <div class="legenda-item"><div class="legenda-cor" style="background:#1565c0"></div>Institucional</div>
+      <div class="legenda-item"><div class="legenda-cor" style="background:#1a5c38"></div>Projeto</div>
+      <div class="legenda-item"><div class="legenda-cor" style="background:#e07a20"></div>Comemoração</div>
+      <div class="legenda-item"><div class="legenda-cor" style="background:#6a1b9a"></div>Pedagógico/Avaliação</div>
+      <div class="legenda-item"><div class="legenda-cor" style="background:#00695c"></div>Reunião</div>
+    </div>
+  </div>
+  <div class="anual-grid" id="anual-grid"></div>
+</div>
+
+<!-- VIEW MENSAL -->
+<div class="view" id="view-mensal">
+  <div class="mes-view-header">
+    <button class="mes-nav-btn" onclick="navegarMes(-1)">&#8592;</button>
+    <div class="mes-titulo" id="mes-titulo"></div>
+    <button class="mes-nav-btn" onclick="navegarMes(1)">&#8594;</button>
+  </div>
+  <div class="legenda-cores" style="margin-bottom:14px;">
+    <div class="legenda-item"><div class="legenda-cor" style="background:#c0392b"></div>Feriado</div>
+    <div class="legenda-item"><div class="legenda-cor" style="background:#546e7a"></div>Recesso/Férias</div>
+    <div class="legenda-item"><div class="legenda-cor" style="background:#1565c0"></div>Institucional</div>
+    <div class="legenda-item"><div class="legenda-cor" style="background:#1a5c38"></div>Projeto</div>
+    <div class="legenda-item"><div class="legenda-cor" style="background:#e07a20"></div>Comemoração</div>
+    <div class="legenda-item"><div class="legenda-cor" style="background:#6a1b9a"></div>Pedagógico</div>
+    <div class="legenda-item"><div class="legenda-cor" style="background:#00695c"></div>Reunião</div>
+    <div class="legenda-item"><div class="legenda-cor" style="background:#4527a0"></div>Formação</div>
+  </div>
+  <div class="cal-grid">
+    <div class="cal-dias-header">
+      <div class="cal-dia-header">DOM</div>
+      <div class="cal-dia-header">SEG</div>
+      <div class="cal-dia-header">TER</div>
+      <div class="cal-dia-header">QUA</div>
+      <div class="cal-dia-header">QUI</div>
+      <div class="cal-dia-header">SEX</div>
+      <div class="cal-dia-header">SÁB</div>
+    </div>
+    <div class="cal-body" id="cal-body"></div>
+  </div>
+</div>
+
+<!-- VIEW LISTA -->
+<div class="view" id="view-lista">
+  <h2 style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--verde);margin-bottom:16px;">Todos os Eventos 2026</h2>
+  <div class="lista-filtros" id="lista-filtros"></div>
+  <div id="lista-body"></div>
+</div>
+
+<!-- VIEW AUDITÓRIO -->
+<div class="view" id="view-auditorio">
+  <!-- Hero -->
+  <div class="aud-hero">
+    <div class="aud-hero-icon">🎭</div>
+    <div style="flex:1">
+      <h2>Auditório — E.M. Regina Celi</h2>
+      <p>Agenda de uso do espaço · Turmas · Turnos · Educadores · Responsáveis · SME · Externos</p>
+      <div class="aud-stats">
+        <div class="aud-stat"><div class="num" id="aud-stat-total">—</div><div class="lbl">Agendamentos</div></div>
+        <div class="aud-stat"><div class="num" id="aud-stat-mes">—</div><div class="lbl">Este mês</div></div>
+        <div class="aud-stat"><div class="num" id="aud-stat-proximos">—</div><div class="lbl">Próximos</div></div>
+      </div>
+    </div>
+    <div id="aud-novo-btn-wrap" style="display:none">
+      <button class="btn-aud-novo" onclick="audNovoAgendamento()">➕ Novo Agendamento</button>
+    </div>
+  </div>
+
+  <!-- Legenda -->
+  <div class="aud-legenda">
+    <div class="aud-legenda-item"><div class="aud-legenda-cor" style="background:#7b3fa0"></div>Projeto Escolar</div>
+    <div class="aud-legenda-item"><div class="aud-legenda-cor" style="background:#4a1a7a"></div>SME / Rede</div>
+    <div class="aud-legenda-item"><div class="aud-legenda-cor" style="background:#e07a20"></div>Palestra / Formação</div>
+    <div class="aud-legenda-item"><div class="aud-legenda-cor" style="background:#1565c0"></div>Turma / Turno</div>
+    <div class="aud-legenda-item"><div class="aud-legenda-cor" style="background:#880e4f"></div>Externo / Parceiro</div>
+    <div class="aud-legenda-item"><div class="aud-legenda-cor" style="background:#00695c"></div>Reunião</div>
+  </div>
+
+  <!-- Layout principal -->
+  <div class="aud-layout">
+    <!-- Timeline -->
+    <div class="aud-timeline-wrap">
+      <div class="aud-timeline-header">
+        <h3>📅 Agenda por Mês</h3>
+        <div class="aud-mes-nav">
+          <button onclick="audNavMes(-1)">&#8592;</button>
+          <span id="aud-mes-titulo"></span>
+          <button onclick="audNavMes(1)">&#8594;</button>
+        </div>
+      </div>
+      <div class="aud-timeline-body" id="aud-timeline-body"></div>
+    </div>
+
+    <!-- Sidebar próximos -->
+    <div class="aud-proximos">
+      <div class="aud-proximos-header">
+        <h3>🗓️ Próximos Agendamentos</h3>
+        <p>Os 8 mais próximos</p>
+      </div>
+      <div id="aud-proximos-lista"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PAINEL DETALHE AUDITÓRIO -->
+<div class="aud-detalhe-overlay" id="aud-detalhe-overlay" onclick="fecharAudDetalhe()"></div>
+<div class="aud-detalhe-painel" id="aud-detalhe-painel">
+  <div class="aud-detalhe-header">
+    <div>
+      <h2 id="aud-det-titulo">Agendamento</h2>
+      <p id="aud-det-sub"></p>
+    </div>
+    <button class="painel-close" onclick="fecharAudDetalhe()">✕</button>
+  </div>
+  <div class="aud-detalhe-body" id="aud-det-body"></div>
+</div>
+
+<!-- PAINEL LATERAL -->
+<div class="painel-overlay" id="painel-overlay" onclick="fecharPainel()"></div>
+<div class="painel-lateral" id="painel-lateral">
+  <div class="painel-header">
+    <div>
+      <h2 id="painel-data-titulo">Eventos do dia</h2>
+      <p id="painel-data-sub"></p>
+    </div>
+    <button class="painel-close" onclick="fecharPainel()">✕</button>
+  </div>
+  <div class="painel-body" id="painel-body"></div>
+</div>
+
+<!-- OVERLAY ADMIN -->
+<div class="admin-overlay" id="admin-overlay">
+  <div class="admin-login-box" id="admin-login-box">
+    <div style="font-size:40px;margin-bottom:10px;">🔐</div>
+    <h2>Área Exclusiva da Direção</h2>
+    <p>Digite a senha para acessar o gerenciamento de eventos</p>
+    <input type="password" class="admin-input" id="admin-senha" placeholder="Senha da Direção" onkeydown="if(event.key==='Enter')loginAdmin()">
+    <span class="aviso-erro" id="admin-erro">Senha incorreta. Tente novamente.</span>
+    <button class="btn-verde" onclick="loginAdmin()">Entrar</button>
+    <div style="margin-top:12px;">
+      <button class="btn-secundario" style="width:100%" onclick="fecharAdminOverlay()">Cancelar</button>
+    </div>
+  </div>
+  <div class="admin-painel" id="admin-painel" style="display:none">
+    <div class="admin-painel-header">
+      <div>
+        <h2>⚙️ Gerenciamento de Eventos — Direção</h2>
+        <p style="font-size:12px;opacity:0.8;margin-top:3px;">E.M. Regina Celi da Silva Cerdeira · 2026</p>
+      </div>
+      <button class="painel-close" onclick="fecharAdminOverlay()">✕</button>
+    </div>
+    <div class="admin-painel-body">
+      <div class="admin-tabs">
+        <div class="admin-tab active" onclick="adminTab('adicionar')">➕ Adicionar Evento</div>
+        <div class="admin-tab" onclick="adminTab('gerenciar')">📋 Gerenciar Eventos</div>
+        <div class="admin-tab" onclick="adminTab('auditorio')">🎭 Auditório</div>
+      </div>
+      <!-- TAB: ADICIONAR -->
+      <div id="admin-tab-adicionar">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nome do Evento *</label>
+            <input type="text" id="ev-nome" placeholder="Ex: Reunião de Responsáveis">
+          </div>
+          <div class="form-group">
+            <label>Data Início *</label>
+            <input type="date" id="ev-data-inicio" value="2026-01-01">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Data Fim (opcional)</label>
+            <input type="date" id="ev-data-fim">
+          </div>
+          <div class="form-group">
+            <label>Tipo *</label>
+            <select id="ev-tipo">
+              <option value="institucional">🔵 Institucional</option>
+              <option value="projeto">🟢 Projeto / Temática</option>
+              <option value="comemorativo">🟠 Comemoração</option>
+              <option value="pedagogico">🟣 Pedagógico / Avaliação</option>
+              <option value="reuniao">🟩 Reunião / Responsáveis</option>
+              <option value="feriado">🔴 Feriado</option>
+              <option value="recesso">⚫ Recesso / Férias</option>
+              <option value="formacao">🟤 Formação / PI</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row single">
+          <div class="form-group">
+            <label>Descrição / Detalhes</label>
+            <textarea id="ev-descricao" placeholder="Descrição, responsável, local, observações..."></textarea>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:4px;">
+          <button class="btn-verde" style="width:auto;padding:10px 24px" onclick="adicionarEvento()">Salvar Evento</button>
+          <button class="btn-secundario" onclick="limparForm()">Limpar</button>
+        </div>
+        <span class="aviso-erro" id="form-erro">Preencha nome e data de início.</span>
+        <div id="form-sucesso" style="display:none;margin-top:10px;padding:10px;background:#e8f5e9;border-radius:8px;font-size:13px;color:#1a5c38;">✅ Evento adicionado com sucesso!</div>
+      </div>
+      <!-- TAB: GERENCIAR -->
+      <div id="admin-tab-gerenciar" style="display:none">
+        <div style="display:flex;gap:8px;margin-bottom:14px;align-items:center;">
+          <input type="text" id="busca-evento" class="admin-input" style="margin:0;flex:1" placeholder="Buscar evento..." oninput="filtrarEventosAdmin()">
+          <select id="filtro-mes-admin" class="admin-input" style="margin:0;width:130px" onchange="filtrarEventosAdmin()">
+            <option value="">Todos os meses</option>
+            <option value="1">Janeiro</option><option value="2">Fevereiro</option><option value="3">Março</option>
+            <option value="4">Abril</option><option value="5">Maio</option><option value="6">Junho</option>
+            <option value="7">Julho</option><option value="8">Agosto</option><option value="9">Setembro</option>
+            <option value="10">Outubro</option><option value="11">Novembro</option><option value="12">Dezembro</option>
+          </select>
+        </div>
+        <div id="admin-lista-eventos"></div>
+      </div>
+      <!-- TAB: AUDITÓRIO -->
+      <div id="admin-tab-auditorio" style="display:none">
+        <div class="aud-admin-wrap" style="border-top:none;margin-top:0;padding-top:0">
+          <h3>🎭 Novo Agendamento do Auditório</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Título do Agendamento *</label>
+              <input type="text" id="aud-titulo" placeholder="Ex: Palestra sobre saúde emocional">
+            </div>
+            <div class="form-group">
+              <label>Data *</label>
+              <input type="date" id="aud-data" value="2026-06-01">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Horário de Início *</label>
+              <input type="time" id="aud-hora-inicio" value="09:00">
+            </div>
+            <div class="form-group">
+              <label>Horário de Término *</label>
+              <input type="time" id="aud-hora-fim" value="12:00">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Categoria *</label>
+              <select id="aud-categoria">
+                <option value="projeto">🟣 Projeto Escolar</option>
+                <option value="sme">🟤 SME / Rede Municipal</option>
+                <option value="palestra">🟠 Palestra / Formação</option>
+                <option value="turma">🔵 Atividade de Turma/Turno</option>
+                <option value="externo">🔴 Evento Externo / Parceiro</option>
+                <option value="reuniao">🟢 Reunião</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Público-Alvo *</label>
+              <select id="aud-publico">
+                <option value="comunidade">🌍 Comunidade Escolar</option>
+                <option value="alunos">🎒 Alunos</option>
+                <option value="educadores">👩‍🏫 Educadores</option>
+                <option value="familias">👨‍👩‍👧 Famílias / Responsáveis</option>
+                <option value="sme">🏛️ SME / Rede (fechado)</option>
+                <option value="externo">🔗 Externo</option>
+                <option value="turno">🕐 Um Turno</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row single">
+            <div class="form-group">
+              <label>Responsável / Organização</label>
+              <input type="text" id="aud-responsavel" placeholder="Ex: Direção, SME, Equipe Pedagógica...">
+            </div>
+          </div>
+          <div class="form-row single">
+            <div class="form-group">
+              <label>Descrição / Observações</label>
+              <textarea id="aud-descricao" placeholder="Detalhes do evento, materiais necessários, observações..."></textarea>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:4px;">
+            <button class="btn-verde" style="background:#7b3fa0;width:auto;padding:10px 24px" onclick="salvarAgendamentoAud()">Salvar Agendamento</button>
+            <button class="btn-secundario" onclick="limparFormAud()">Limpar</button>
+          </div>
+          <span class="aviso-erro" id="aud-form-erro">Preencha título, data e horários.</span>
+          <div id="aud-form-sucesso" style="display:none;margin-top:10px;padding:10px;background:#f8f0ff;border-radius:8px;font-size:13px;color:#7b3fa0;">✅ Agendamento salvo com sucesso!</div>
+        </div>
+        <!-- Lista agendamentos existentes -->
+        <div class="aud-admin-wrap" style="margin-top:24px">
+          <h3>📋 Agendamentos Cadastrados</h3>
+          <div id="aud-admin-lista"></div>
+        </div>
+      </div>
+    </div>
+    <div class="admin-actions">
+      <button class="btn-secundario" onclick="exportarCSV()">📤 Exportar CSV</button>
+      <button class="btn-secundario" onclick="imprimirCalendario()">🖨️ Imprimir</button>
+      <div style="flex:1"></div>
+      <button class="btn-danger" onclick="confirmarLogout()">Sair</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ====================================================
+// DADOS BASE DO CALENDÁRIO
+// ====================================================
+const NOMES_MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const NOMES_DIAS = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const TIPOS_LABEL = {
+  feriado: 'Feriado',
+  recesso: 'Recesso/Férias',
+  institucional: 'Institucional',
+  projeto: 'Projeto/Temática',
+  comemorativo: 'Comemoração',
+  pedagogico: 'Pedagógico/Avaliação',
+  reuniao: 'Reunião',
+  formacao: 'Formação/PI'
+};
+
+// Eventos base (rede municipal + escola)
+const EVENTOS_BASE = [
+  // JANEIRO — férias
+  {id:'b1', nome:'Férias Escolares', dataInicio:'2026-01-01', dataFim:'2026-01-31', tipo:'recesso', descricao:'Recesso de Verão — Sem atividades letivas.', editavel:false},
+  {id:'b2', nome:'Aniversário de Duque de Caxias', dataInicio:'2026-03-05', tipo:'feriado', descricao:'Feriado Municipal — Aniversário de Duque de Caxias.', editavel:false},
+  
+  // FEVEREIRO
+  {id:'b3', nome:'Apresentação dos Professores + Planejamento Pedagógico', dataInicio:'2026-02-02', tipo:'formacao', descricao:'AP/PP — Apresentação dos professores e planejamento pedagógico. Sem alunos.', editavel:false},
+  {id:'b4', nome:'Planejamento Integrado (PI)', dataInicio:'2026-02-03', tipo:'formacao', descricao:'Planejamento Integrado da rede.', editavel:false},
+  {id:'b5', nome:'Planejamento Integrado (PI)', dataInicio:'2026-02-04', tipo:'formacao', descricao:'Planejamento Integrado da rede.', editavel:false},
+  {id:'b6', nome:'Início das Aulas 2026', dataInicio:'2026-02-09', tipo:'institucional', descricao:'IA — Início das Aulas. 1º Bimestre (05/02–30/04 = 56 dias).', editavel:false},
+  {id:'b7', nome:'Planejamento Integrado (PI)', dataInicio:'2026-02-13', tipo:'formacao', descricao:'Planejamento Integrado.', editavel:false},
+  {id:'b8', nome:'Carnaval (Feriado)', dataInicio:'2026-02-16', tipo:'feriado', descricao:'Feriado Nacional — Carnaval.', editavel:false},
+  {id:'b9', nome:'Recesso — Carnaval', dataInicio:'2026-02-17', tipo:'recesso', descricao:'Recesso escolar — Carnaval.', editavel:false},
+  {id:'b10', nome:'Planejamento Integrado (PI)', dataInicio:'2026-02-18', tipo:'formacao', descricao:'Planejamento Integrado.', editavel:false},
+  {id:'b11', nome:'Reunião de Responsáveis', dataInicio:'2026-02-26', tipo:'reuniao', descricao:'RR — Reunião de Responsáveis do 1º Bimestre.', editavel:false},
+
+  // LANÇAMENTO PROJETO
+  {id:'p1', nome:'Lançamento — Projeto 90 Anos de Maurício de Sousa', dataInicio:'2026-02-09', tipo:'projeto', descricao:'Lançamento oficial do Projeto Pedagógico Anual 2026: 90 Anos de Maurício de Sousa — Gibis como Ferramenta de Aprendizagem e Inclusão.', editavel:false},
+
+  // MARÇO
+  {id:'b12', nome:'Feriado Municipal — Aniversário DC', dataInicio:'2026-03-05', tipo:'feriado', descricao:'Aniversário de Duque de Caxias — Feriado Municipal.', editavel:false},
+  {id:'b13', nome:'Grupo de Estudos', dataInicio:'2026-03-19', tipo:'formacao', descricao:'GE — Grupo de Estudos dos professores.', editavel:false},
+  {id:'b14', nome:'Semana Escolar de Combate à Violência contra a Mulher', dataInicio:'2026-03-09', dataFim:'2026-03-13', tipo:'projeto', descricao:'Lei nº 14.164/2021 — Realizada anualmente em março. Tema do Projeto: Mônica e protagonismo feminino.', editavel:false},
+  {id:'b15', nome:'Semana de Valorização de Mulheres que Fizeram História', dataInicio:'2026-03-09', dataFim:'2026-03-13', tipo:'projeto', descricao:'Lei nº 14.986/2024 — 2ª semana de março. Personagens: Mônica, Magali, Marina.', editavel:false},
+
+  // ABRIL
+  {id:'b16', nome:'Paixão de Cristo (Feriado)', dataInicio:'2026-04-03', tipo:'feriado', descricao:'Feriado Nacional — Sexta-feira da Paixão.', editavel:false},
+  {id:'b17', nome:'Tiradentes (Feriado)', dataInicio:'2026-04-21', tipo:'feriado', descricao:'Feriado Nacional — Tiradentes.', editavel:false},
+  {id:'b18', nome:'Semana da Conscientização da Inclusão', dataInicio:'2026-04-01', dataFim:'2026-04-07', tipo:'projeto', descricao:'Culminância do Projeto — Diversidade com Bento e Jotalhão. Direitos da Pessoa com Deficiência (Lei nº 13.146/2015).', editavel:false},
+  {id:'b19', nome:'Relatório Descritivo / Conselho de Classe 1º Bim', dataInicio:'2026-04-17', tipo:'pedagogico', descricao:'RD — Relatório Descritivo e Avaliação dos Trabalhos do 1º Bimestre.', editavel:false},
+  {id:'b20', nome:'Relatório Descritivo / Conselho de Classe 1º Bim', dataInicio:'2026-04-20', tipo:'pedagogico', descricao:'RD — Continuação. Conselho de Classe 1º Bimestre.', editavel:false},
+  {id:'b21', nome:'Relatório Descritivo / Conselho de Classe 1º Bim', dataInicio:'2026-04-22', tipo:'pedagogico', descricao:'RD — Encerramento 1º Bimestre.', editavel:false},
+  {id:'b22', nome:'Conselho de Classe 1 (COC 1)', dataInicio:'2026-05-07', tipo:'pedagogico', descricao:'COC 1 — Conselho de Classe do 1º Bimestre.', editavel:false},
+
+  // MAIO
+  {id:'b23', nome:'Dia do Trabalho (Feriado)', dataInicio:'2026-05-01', tipo:'feriado', descricao:'Feriado Nacional — Dia do Trabalho.', editavel:false},
+  {id:'b24', nome:'Dia Nacional de Combate ao Abuso Sexual Infantil', dataInicio:'2026-05-18', tipo:'projeto', descricao:'Lei nº 9.970/2000 — 18 de maio. Tema: Conceitos de privacidade, corpo e respeito (Turma da Mônica).', editavel:false},
+  {id:'b25', nome:'Mês das Mães / Apresentação Cultural', dataInicio:'2026-05-14', tipo:'comemorativo', descricao:'Comemoração do Dia das Mães (2º domingo de maio). Apresentação cultural com famílias.', editavel:false},
+  {id:'b26', nome:'Reunião de Responsáveis', dataInicio:'2026-05-21', tipo:'reuniao', descricao:'RR — Reunião de Responsáveis 2º Bimestre.', editavel:false},
+
+  // JUNHO
+  {id:'b27', nome:'Corpus Christi (Feriado)', dataInicio:'2026-06-04', tipo:'feriado', descricao:'Feriado Nacional — Corpus Christi.', editavel:false},
+  {id:'b28', nome:'Grupo de Estudos', dataInicio:'2026-06-04', tipo:'formacao', descricao:'GE — Grupo de Estudos.', editavel:false},
+  {id:'b29', nome:'Semana de Prevenção da Gravidez na Adolescência', dataInicio:'2026-06-01', dataFim:'2026-06-07', tipo:'projeto', descricao:'Leis nº 8.069/1990 e 13.798/2019 — Turma da Mônica Jovem: valores e responsabilidade.', editavel:false},
+  {id:'b30', nome:'Dia do Meio Ambiente — Culminância', dataInicio:'2026-06-05', tipo:'projeto', descricao:'Culminância — Educação Ambiental: Ecologia com Chico Bento e Horácio. Projeto Tampinhas Geram Gentileza.', editavel:false},
+  {id:'p10', nome:'📅 DIA D DO PROJETO — Gincana Inclusiva', dataInicio:'2026-06-02', tipo:'projeto', descricao:'Dia D do Projeto 90 Anos de Maurício de Sousa. Atividade especial do projeto em todas as turmas, incluindo Classes Especiais e AEE.', editavel:false},
+  {id:'p11', nome:'🏆 GINCANA INCLUSIVA — Dia da Competição', dataInicio:'2026-06-03', tipo:'projeto', descricao:'GINCANA INCLUSIVA MAURÍCIO DE SOUSA — Dia principal da competição entre as equipes temáticas (Turma da Mônica). Participação de todos os segmentos, inclusive Classes Especiais.', editavel:false},
+  {id:'b31', nome:'Relatório Descritivo', dataInicio:'2026-06-29', tipo:'pedagogico', descricao:'RD — Relatório Descritivo final do 2º Bimestre.', editavel:false},
+
+  // JULHO
+  {id:'b32', nome:'Relatório Descritivo', dataInicio:'2026-07-01', tipo:'pedagogico', descricao:'RD — Relatório Descritivo continuação.', editavel:false},
+  {id:'b33', nome:'Conselho de Classe 2 (COC 2)', dataInicio:'2026-07-15', tipo:'pedagogico', descricao:'COC 2 — Conselho de Classe do 2º Bimestre.', editavel:false},
+  {id:'p2', nome:'🎉 FESTA JULINA — Arraiá do Projeto 90 Anos', dataInicio:'2026-07-18', tipo:'comemorativo', descricao:'GRANDE CULMINÂNCIA ANUAL — Festa Julina da E.M. Regina Celi. Integrada ao Projeto 90 Anos de Maurício de Sousa. Encerramento do 1º semestre da Gincana Inclusiva. Apresentação do Grupo Luar Sem Limites.', editavel:false},
+  {id:'b34', nome:'Semana de Educação para o Trânsito', dataInicio:'2026-07-20', dataFim:'2026-07-25', tipo:'projeto', descricao:'Lei nº 9.503/1997 — Semana do Dia do Trânsito (25/07). Gibis especiais de educação para o trânsito.', editavel:false},
+  {id:'b35', nome:'Recesso Escolar — 2º Semestre', dataInicio:'2026-07-20', dataFim:'2026-07-31', tipo:'recesso', descricao:'RE — Recesso Escolar de julho.', editavel:false},
+
+  // AGOSTO
+  {id:'b36', nome:'Planejamento Integrado (PI)', dataInicio:'2026-08-03', tipo:'formacao', descricao:'PI — Planejamento Integrado de retorno do 3º Bimestre.', editavel:false},
+  {id:'b37', nome:'Início das Aulas — 3º Bimestre', dataInicio:'2026-08-04', tipo:'institucional', descricao:'IA — Início das Aulas do 3º Bimestre (03/08–30/09 = 42 dias).', editavel:false},
+  {id:'b38', nome:'Reunião de Responsáveis', dataInicio:'2026-08-13', tipo:'reuniao', descricao:'RR — Reunião de Responsáveis 3º Bimestre.', editavel:false},
+  {id:'p3', nome:'🌸 Semana da Educação Infantil', dataInicio:'2026-08-10', dataFim:'2026-08-14', tipo:'comemorativo', descricao:'Semana de atividades especiais para a Educação Infantil. Turmas 41, 42, 51, 52. Atividades com gibis da Turma da Mônica, dramatização e artes visuais.', editavel:false},
+  {id:'p4', nome:'♿ Semana da Pessoa com Deficiência Intelectual e Múltipla', dataInicio:'2026-08-17', dataFim:'2026-08-21', tipo:'comemorativo', descricao:'Semana de celebração e visibilidade da Pessoa com Deficiência Intelectual e Múltipla. Atividades das Classes Especiais, AEE e turmas regulares. Personagens: Bento e Jotalhão.', editavel:false},
+  {id:'b39', nome:'Semana de Valorização de Mulheres que Fizeram História', dataInicio:'2026-08-10', dataFim:'2026-08-14', tipo:'projeto', descricao:'Lei nº 14.986/2024 — 2ª semana de agosto. Protagonismo feminino.', editavel:false},
+  {id:'b40', nome:'Grupo de Estudos', dataInicio:'2026-08-27', tipo:'formacao', descricao:'GE — Grupo de Estudos.', editavel:false},
+
+  // SETEMBRO
+  {id:'b41', nome:'Independência do Brasil (Feriado)', dataInicio:'2026-09-07', tipo:'feriado', descricao:'Feriado Nacional — 7 de Setembro.', editavel:false},
+  {id:'b42', nome:'Semana de Combate ao Bullying / Prevenção ao Suicídio', dataInicio:'2026-09-15', dataFim:'2026-09-21', tipo:'projeto', descricao:'Leis nº 13.185/2015 e 13.819/2019 — Semana de 15 a 21/09. Culminância: Respeito com toda a Turma da Mônica. O bullying pode ser fator de risco para suicídio/automutilação.', editavel:false},
+  {id:'b43', nome:'Relatório Descritivo / Conselho de Classe 3º Bim', dataInicio:'2026-09-17', tipo:'pedagogico', descricao:'RD — Relatório Descritivo do 3º Bimestre.', editavel:false},
+  {id:'b44', nome:'Conselho de Classe 3 (COC 3)', dataInicio:'2026-09-28', tipo:'pedagogico', descricao:'COC 3 — Conselho de Classe do 3º Bimestre.', editavel:false},
+
+  // OUTUBRO
+  {id:'b45', nome:'Conselho de Classe 3 (COC 3 — continuação)', dataInicio:'2026-10-01', tipo:'pedagogico', descricao:'COC 3 continuação.', editavel:false},
+  {id:'b46', nome:'Nossa Senhora Aparecida (Feriado)', dataInicio:'2026-10-12', tipo:'feriado', descricao:'Feriado Nacional — Nossa Senhora Aparecida.', editavel:false},
+  {id:'b47', nome:'Grupo de Estudos', dataInicio:'2026-10-15', tipo:'formacao', descricao:'GE — Grupo de Estudos.', editavel:false},
+  {id:'p5', nome:'🎈 FESTA DA ALEGRIA — Dia das Crianças', dataInicio:'2026-10-12', tipo:'comemorativo', descricao:'Festa da Alegria — Comemoração do Dia das Crianças. Protagonismo infantil com os personagens da Turma da Mônica. Atividades, apresentações e brincadeiras para todos.', editavel:false},
+  {id:'b48', nome:'Reunião de Responsáveis', dataInicio:'2026-10-26', tipo:'reuniao', descricao:'RR — Reunião de Responsáveis 4º Bimestre.', editavel:false},
+
+  // NOVEMBRO
+  {id:'b49', nome:'Finados (Feriado)', dataInicio:'2026-11-02', tipo:'feriado', descricao:'Feriado Nacional — Finados.', editavel:false},
+  {id:'b50', nome:'Proclamação da República (Feriado)', dataInicio:'2026-11-15', tipo:'feriado', descricao:'Feriado Nacional — Proclamação da República.', editavel:false},
+  {id:'b51', nome:'Dia da Consciência Negra (Feriado)', dataInicio:'2026-11-20', tipo:'feriado', descricao:'Feriado Nacional — Dia da Consciência Negra. Lei nº 10.639/2003. Tema: Diversidade étnico-racial com Jeremias.', editavel:false},
+  {id:'b52', nome:'Semana de Relações Étnico-Raciais', dataInicio:'2026-11-16', dataFim:'2026-11-20', tipo:'projeto', descricao:'Lei nº 10.639/2003 — Semana da Consciência Negra. Personagem Jeremias. Culminância do Projeto — Diversidade étnico-racial.', editavel:false},
+  {id:'p6', nome:'🎂 ANIVERSÁRIO DA ESCOLA', dataInicio:'2026-11-30', tipo:'comemorativo', descricao:'Aniversário da E.M. Regina Celi da Silva Cerdeira — Centro de Referência em Educação Inclusiva. Celebração com toda a comunidade escolar.', editavel:false},
+
+  // DEZEMBRO
+  {id:'b53', nome:'Conselho de Classe 4 — 3º ao 5º Ano (COC 4)', dataInicio:'2026-12-07', dataFim:'2026-12-11', tipo:'pedagogico', descricao:'COC 4 — Turmas do 3º ao 5º Ano (07 a 11/12).', editavel:false},
+  {id:'b54', nome:'Conselho de Classe Final — 3º ao 5º Ano', dataInicio:'2026-12-07', tipo:'pedagogico', descricao:'COC Final — Turmas do 3º ao 5º Ano. Avaliação de promoção.', editavel:false},
+  {id:'b55', nome:'Mostra Pedagógica Final — Exposição do Projeto', dataInicio:'2026-12-09', tipo:'projeto', descricao:'Mostra Pedagógica Final — Exposição de todas as produções do ano. Projeto 90 Anos de Maurício de Sousa. Apresentação para famílias e comunidade.', editavel:false},
+  {id:'b56', nome:'Feira de Saúde e Bem-Estar', dataInicio:'2026-12-07', dataFim:'2026-12-11', tipo:'projeto', descricao:'1ª semana de dezembro — Feira de Saúde e Bem-Estar. Educação em Direitos Humanos (10/12 — Semana do Dia Internacional dos Direitos Humanos).', editavel:false},
+  {id:'b57', nome:'Conselho de Classe 4 — 1º e 2º Ano', dataInicio:'2026-12-21', tipo:'pedagogico', descricao:'COC 4 — Turmas do 1º e 2º Ano. Encerramento do 4º Bimestre.', editavel:false},
+  {id:'b58', nome:'Entrega de Resultados / Encerramento', dataInicio:'2026-12-18', tipo:'institucional', descricao:'ER/AT — Entrega de Resultados e Avaliação dos Trabalhos. Encerramento do Ano Letivo 2026.', editavel:false},
+  {id:'b59', nome:'Último Dia Letivo 2026', dataInicio:'2026-12-21', tipo:'institucional', descricao:'Encerramento oficial do Ano Letivo 2026 — E.M. Regina Celi da Silva Cerdeira.', editavel:false},
+];
+
+// ====================================================
+// ESTADO + LOCALSTORAGE
+// ====================================================
+const LS_EVENTOS = 'rc2026_eventos';
+const LS_AUD = 'rc2026_auditorio';
+
+function salvarStorage() {
+  try {
+    localStorage.setItem(LS_EVENTOS, JSON.stringify(eventosCustom));
+    localStorage.setItem(LS_AUD, JSON.stringify(audAgendamentosCustom));
+  } catch(e) { console.warn('localStorage indisponível:', e); }
+}
+
+function carregarStorage() {
+  try {
+    const ev = localStorage.getItem(LS_EVENTOS);
+    if (ev) eventosCustom = JSON.parse(ev);
+    const aud = localStorage.getItem(LS_AUD);
+    if (aud) audAgendamentosCustom = JSON.parse(aud);
+  } catch(e) { console.warn('Erro ao carregar localStorage:', e); }
+}
+
+let mesAtual = new Date().getMonth();
+let anoAtual = 2026;
+let eventosCustom = [];
+let audAgendamentosCustom = [];
+let loggedIn = false;
+let filtrotipoAtivo = 'todos';
+
+// Carregar dados salvos imediatamente
+carregarStorage();
+
+function getEventos() {
+  return [...EVENTOS_BASE, ...eventosCustom];
+}
+
+function getEventosDoDia(dateStr) {
+  return getEventos().filter(ev => {
+    if (ev.dataFim) {
+      return dateStr >= ev.dataInicio && dateStr <= ev.dataFim;
+    }
+    return ev.dataInicio === dateStr;
+  });
+}
+
+function getEventosDoMes(ano, mes) {
+  const prefixo = `${ano}-${String(mes+1).padStart(2,'0')}`;
+  return getEventos().filter(ev => {
+    if (ev.dataFim) {
+      const start = ev.dataInicio.substring(0,7);
+      const end = ev.dataFim.substring(0,7);
+      return start <= prefixo && end >= prefixo;
+    }
+    return ev.dataInicio.substring(0,7) === prefixo;
+  });
+}
+
+// ====================================================
+// VIEWS
+// ====================================================
+function mostrarView(nome) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + nome).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  const idxMap = {anual:0, mensal:1, lista:2, auditorio:3};
+  if (idxMap[nome] !== undefined) document.querySelectorAll('.nav-btn')[idxMap[nome]].classList.add('active');
+  if (nome === 'anual') renderAnual();
+  if (nome === 'mensal') renderMensal();
+  if (nome === 'lista') renderLista();
+  if (nome === 'auditorio') renderAuditorio();
+}
+
+// ====================================================
+// RENDER ANUAL
+// ====================================================
+function renderAnual() {
+  const grid = document.getElementById('anual-grid');
+  grid.innerHTML = '';
+  const coresMes = ['#e3f0ff','#f0faf4','#fff8e1','#fce4ec','#e8f5e9','#e3f2fd','#fff3e0','#f3e5f5','#e0f7fa','#fff9c4','#fce4ec','#e8eaf6'];
+  const textoMes = ['#0d47a1','#1a5c38','#bf6000','#880e4f','#1a5c38','#0d47a1','#bf6000','#4a148c','#006064','#827717','#880e4f','#1a237e'];
+  const diasLetivos = [0,15,22,19,20,21,13,21,21,20,19,15];
+  for (let m = 0; m < 12; m++) {
+    const evs = getEventosDoMes(2026, m);
+    const card = document.createElement('div');
+    card.className = 'mes-card';
+    const header = document.createElement('div');
+    header.className = 'mes-card-header';
+    header.style.background = coresMes[m];
+    header.style.color = textoMes[m];
+    header.innerHTML = `<span>${NOMES_MESES[m]}</span><span class="dias-letivos">${diasLetivos[m]} dias letivos</span>`;
+    card.appendChild(header);
+    // Mini calendário
+    const mini = document.createElement('div');
+    mini.className = 'mini-cal';
+    const diasGrid = document.createElement('div');
+    diasGrid.className = 'mini-cal-dias';
+    ['D','S','T','Q','Q','S','S'].forEach(d => {
+      const h = document.createElement('div');
+      h.className = 'mini-cal-header';
+      h.textContent = d;
+      diasGrid.appendChild(h);
+    });
+    const primeiroDia = new Date(2026, m, 1).getDay();
+    const diasNoMes = new Date(2026, m+1, 0).getDate();
+    for (let i = 0; i < primeiroDia; i++) {
+      const vazio = document.createElement('div'); diasGrid.appendChild(vazio);
+    }
+    for (let d = 1; d <= diasNoMes; d++) {
+      const dateStr = `2026-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const evDia = getEventosDoDia(dateStr);
+      const cel = document.createElement('div');
+      cel.className = 'mini-dia';
+      cel.textContent = d;
+      if (evDia.length > 0) {
+        cel.classList.add('tem-evento');
+        const dot = document.createElement('div');
+        dot.className = 'evento-dot';
+        dot.style.background = getCor(evDia[0].tipo);
+        cel.appendChild(dot);
+      }
+      cel.onclick = () => abrirDia(dateStr, m);
+      diasGrid.appendChild(cel);
+    }
+    mini.appendChild(diasGrid);
+    card.appendChild(mini);
+    // Preview eventos
+    if (evs.length > 0) {
+      const prev = document.createElement('div');
+      prev.className = 'mes-eventos-preview';
+      const mostrar = evs.slice(0,4);
+      mostrar.forEach(ev => {
+        const item = document.createElement('div');
+        item.className = 'ev-item';
+        item.innerHTML = `<div class="ev-dot" style="background:${getCor(ev.tipo)}"></div><span>${ev.nome}</span>`;
+        prev.appendChild(item);
+      });
+      if (evs.length > 4) {
+        const mais = document.createElement('div');
+        mais.className = 'ev-item';
+        mais.style.color = '#888';
+        mais.textContent = `+ ${evs.length - 4} evento(s)`;
+        prev.appendChild(mais);
+      }
+      card.appendChild(prev);
+    }
+    card.onclick = (e) => { if (!e.target.classList.contains('mini-dia')) { mesAtual = m; mostrarView('mensal'); } };
+    grid.appendChild(card);
+  }
+}
+
+function abrirDia(dateStr, mes) {
+  mesAtual = mes;
+  mostrarView('mensal');
+  setTimeout(() => abrirPainel(dateStr), 100);
+}
+
+// ====================================================
+// RENDER MENSAL
+// ====================================================
+function renderMensal() {
+  const titulo = document.getElementById('mes-titulo');
+  titulo.textContent = `${NOMES_MESES[mesAtual]} 2026`;
+  const body = document.getElementById('cal-body');
+  body.innerHTML = '';
+  const primeiroDia = new Date(2026, mesAtual, 1).getDay();
+  const diasNoMes = new Date(2026, mesAtual+1, 0).getDate();
+  const hoje = new Date();
+  const hoje2026 = (hoje.getFullYear() === 2026) ? hoje : null;
+
+  for (let i = 0; i < primeiroDia; i++) {
+    const cel = document.createElement('div');
+    cel.className = 'cal-cell outro-mes';
+    body.appendChild(cel);
+  }
+  for (let d = 1; d <= diasNoMes; d++) {
+    const dateStr = `2026-${String(mesAtual+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const evDia = getEventosDoDia(dateStr);
+    const cel = document.createElement('div');
+    cel.className = 'cal-cell';
+    const temFeriado = evDia.some(e => e.tipo === 'feriado');
+    const temRecesso = evDia.some(e => e.tipo === 'recesso');
+    if (temFeriado) cel.classList.add('feriado-cell');
+    else if (temRecesso) cel.classList.add('recesso-cell');
+    if (hoje2026 && hoje2026.getMonth() === mesAtual && hoje2026.getDate() === d) cel.classList.add('hoje-cell');
+    const num = document.createElement('div');
+    num.className = 'cal-num';
+    num.textContent = d;
+    cel.appendChild(num);
+    // Eventos
+    const limite = 3;
+    evDia.slice(0, limite).forEach(ev => {
+      const evEl = document.createElement('div');
+      evEl.className = `cal-evento tipo-${ev.tipo}`;
+      evEl.textContent = ev.nome;
+      evEl.onclick = (e) => { e.stopPropagation(); abrirPainel(dateStr); };
+      cel.appendChild(evEl);
+    });
+    if (evDia.length > limite) {
+      const mais = document.createElement('div');
+      mais.className = 'cal-evento mais';
+      mais.textContent = `+${evDia.length - limite} mais`;
+      mais.onclick = (e) => { e.stopPropagation(); abrirPainel(dateStr); };
+      cel.appendChild(mais);
+    }
+    cel.onclick = () => abrirPainel(dateStr);
+    body.appendChild(cel);
+  }
+  // Preencher final
+  const total = primeiroDia + diasNoMes;
+  const resto = total % 7 === 0 ? 0 : 7 - (total % 7);
+  for (let i = 0; i < resto; i++) {
+    const cel = document.createElement('div');
+    cel.className = 'cal-cell outro-mes';
+    body.appendChild(cel);
+  }
+}
+
+function navegarMes(delta) {
+  mesAtual += delta;
+  if (mesAtual < 0) { mesAtual = 11; }
+  if (mesAtual > 11) { mesAtual = 0; }
+  renderMensal();
+}
+
+// ====================================================
+// PAINEL LATERAL
+// ====================================================
+function abrirPainel(dateStr) {
+  const [ano, mes, dia] = dateStr.split('-');
+  const data = new Date(+ano, +mes-1, +dia);
+  const nomeDia = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'][data.getDay()];
+  document.getElementById('painel-data-titulo').textContent = `${nomeDia}, ${+dia} de ${NOMES_MESES[+mes-1]}`;
+  document.getElementById('painel-data-sub').textContent = `${ano} · ${getBimestre(dateStr)}`;
+  const evs = getEventosDoDia(dateStr);
+  const body = document.getElementById('painel-body');
+  body.innerHTML = '';
+  if (evs.length === 0) {
+    body.innerHTML = '<div style="padding:20px;text-align:center;color:#aaa;font-size:13px;">Nenhum evento neste dia.<br><span style="font-size:11px;">Acesse a área da Direção para adicionar eventos.</span></div>';
+  } else {
+    evs.forEach(ev => {
+      const card = document.createElement('div');
+      card.className = 'ev-card-full';
+      card.style.borderLeftColor = getCor(ev.tipo);
+      const dataFimText = ev.dataFim && ev.dataFim !== ev.dataInicio ? ` até ${formatData(ev.dataFim)}` : '';
+      card.innerHTML = `
+        <div class="ev-badge" style="background:${getCor(ev.tipo)}">${TIPOS_LABEL[ev.tipo] || ev.tipo}</div>
+        <h3>${ev.nome}</h3>
+        <div class="ev-meta">📅 ${formatData(ev.dataInicio)}${dataFimText}</div>
+        ${ev.descricao ? `<div class="ev-desc">${ev.descricao}</div>` : ''}
+        ${loggedIn && ev.editavel !== false ? `<div style="margin-top:10px;display:flex;gap:8px;"><button class="btn-secundario" onclick="editarEvento('${ev.id}')">✏️ Editar</button><button class="btn-danger" onclick="excluirEvento('${ev.id}')">🗑️ Excluir</button></div>` : ''}
+      `;
+      body.appendChild(card);
+    });
+  }
+  document.getElementById('painel-overlay').classList.add('open');
+  document.getElementById('painel-lateral').classList.add('open');
+}
+
+function fecharPainel() {
+  document.getElementById('painel-overlay').classList.remove('open');
+  document.getElementById('painel-lateral').classList.remove('open');
+}
+
+function getBimestre(dateStr) {
+  if (dateStr >= '2026-02-05' && dateStr <= '2026-04-30') return '1º Bimestre';
+  if (dateStr >= '2026-05-04' && dateStr <= '2026-07-17') return '2º Bimestre';
+  if (dateStr >= '2026-08-03' && dateStr <= '2026-09-30') return '3º Bimestre';
+  if (dateStr >= '2026-10-01' && dateStr <= '2026-12-21') return '4º Bimestre';
+  return 'Recesso / Férias';
+}
+
+// ====================================================
+// RENDER LISTA
+// ====================================================
+function renderLista() {
+  const filtros = document.getElementById('lista-filtros');
+  filtros.innerHTML = '';
+  const tipos = ['todos', ...Object.keys(TIPOS_LABEL)];
+  tipos.forEach(t => {
+    const btn = document.createElement('button');
+    btn.className = 'filtro-btn' + (filtrotipoAtivo === t ? ' active' : '');
+    btn.textContent = t === 'todos' ? '📋 Todos' : (TIPOS_LABEL[t] || t);
+    btn.onclick = () => { filtrotipoAtivo = t; renderLista(); };
+    filtros.appendChild(btn);
+  });
+  const body = document.getElementById('lista-body');
+  body.innerHTML = '';
+  const evsFiltrados = getEventos()
+    .filter(ev => filtrotipoAtivo === 'todos' || ev.tipo === filtrotipoAtivo)
+    .sort((a,b) => a.dataInicio.localeCompare(b.dataInicio));
+  let mesAtualLista = '';
+  evsFiltrados.forEach(ev => {
+    const [ano, mes] = ev.dataInicio.split('-');
+    const mesTxt = `${NOMES_MESES[+mes-1]} ${ano}`;
+    if (mesTxt !== mesAtualLista) {
+      mesAtualLista = mesTxt;
+      const h = document.createElement('div');
+      h.className = 'lista-mes-titulo';
+      h.textContent = mesTxt;
+      body.appendChild(h);
+    }
+    const item = document.createElement('div');
+    item.className = 'lista-ev-item';
+    item.innerHTML = `
+      <div class="lista-ev-data">
+        <div class="dia">${ev.dataInicio.split('-')[2]}</div>
+        <div class="mesnome">${NOMES_MESES[+ev.dataInicio.split('-')[1]-1].substring(0,3)}</div>
+      </div>
+      <div class="lista-ev-info">
+        <div class="ev-badge" style="background:${getCor(ev.tipo)}">${TIPOS_LABEL[ev.tipo]||ev.tipo}</div>
+        <h4>${ev.nome}</h4>
+        <p>${ev.descricao || ''}</p>
+      </div>
+    `;
+    item.onclick = () => abrirPainel(ev.dataInicio);
+    body.appendChild(item);
+  });
+  if (evsFiltrados.length === 0) {
+    body.innerHTML = '<div style="text-align:center;padding:40px;color:#aaa;">Nenhum evento encontrado.</div>';
+  }
+}
+
+// ====================================================
+// ADMIN
+// ====================================================
+const SENHA_DIRECAO = 'regina2026';
+
+function abrirAdmin() {
+  document.getElementById('admin-overlay').classList.add('open');
+  if (loggedIn) {
+    document.getElementById('admin-login-box').style.display = 'none';
+    document.getElementById('admin-painel').style.display = 'flex';
+    renderAdminLista();
+  }
+}
+
+function loginAdmin() {
+  const senha = document.getElementById('admin-senha').value;
+  if (senha === SENHA_DIRECAO) {
+    loggedIn = true;
+    document.getElementById('admin-login-box').style.display = 'none';
+    document.getElementById('admin-painel').style.display = 'flex';
+    document.getElementById('admin-erro').classList.remove('visivel');
+    document.getElementById('aud-novo-btn-wrap').style.display = 'block';
+    renderAdminLista();
+  } else {
+    document.getElementById('admin-erro').classList.add('visivel');
+    document.getElementById('admin-senha').value = '';
+  }
+}
+
+function fecharAdminOverlay() {
+  document.getElementById('admin-overlay').classList.remove('open');
+  document.getElementById('admin-senha').value = '';
+  document.getElementById('admin-erro').classList.remove('visivel');
+}
+
+function confirmarLogout() {
+  if (confirm('Sair da área da Direção?')) {
+    loggedIn = false;
+    document.getElementById('aud-novo-btn-wrap').style.display = 'none';
+    document.getElementById('admin-painel').style.display = 'none';
+    document.getElementById('admin-login-box').style.display = 'block';
+    fecharAdminOverlay();
+  }
+}
+
+function adminTab(tab) {
+  document.querySelectorAll('.admin-tab').forEach((t,i) => t.classList.toggle('active', (i===0 && tab==='adicionar')||(i===1 && tab==='gerenciar')||(i===2 && tab==='auditorio')));
+  document.getElementById('admin-tab-adicionar').style.display = tab === 'adicionar' ? 'block' : 'none';
+  document.getElementById('admin-tab-gerenciar').style.display = tab === 'gerenciar' ? 'block' : 'none';
+  document.getElementById('admin-tab-auditorio').style.display = tab === 'auditorio' ? 'block' : 'none';
+  if (tab === 'gerenciar') renderAdminLista();
+  if (tab === 'auditorio') renderAudAdminLista();
+}
+
+function adicionarEvento() {
+  const nome = document.getElementById('ev-nome').value.trim();
+  const dataInicio = document.getElementById('ev-data-inicio').value;
+  const dataFim = document.getElementById('ev-data-fim').value;
+  const tipo = document.getElementById('ev-tipo').value;
+  const desc = document.getElementById('ev-descricao').value.trim();
+  if (!nome || !dataInicio) {
+    document.getElementById('form-erro').classList.add('visivel');
+    return;
+  }
+  document.getElementById('form-erro').classList.remove('visivel');
+  const id = 'c' + Date.now();
+  eventosCustom.push({ id, nome, dataInicio, dataFim: dataFim || undefined, tipo, descricao: desc, editavel: true });
+  salvarStorage();
+  document.getElementById('form-sucesso').style.display = 'block';
+  setTimeout(() => document.getElementById('form-sucesso').style.display = 'none', 2500);
+  limparForm();
+  renderAdminLista();
+  renderAnual();
+  renderMensal();
+}
+
+function limparForm() {
+  document.getElementById('ev-nome').value = '';
+  document.getElementById('ev-data-inicio').value = '2026-01-01';
+  document.getElementById('ev-data-fim').value = '';
+  document.getElementById('ev-tipo').value = 'institucional';
+  document.getElementById('ev-descricao').value = '';
+}
+
+function renderAdminLista() {
+  filtrarEventosAdmin();
+}
+
+function filtrarEventosAdmin() {
+  const busca = (document.getElementById('busca-evento')?.value || '').toLowerCase();
+  const mes = document.getElementById('filtro-mes-admin')?.value || '';
+  const container = document.getElementById('admin-lista-eventos');
+  const todos = getEventos().filter(ev => ev.editavel !== false);
+  const filtrados = todos.filter(ev => {
+    const matchBusca = !busca || ev.nome.toLowerCase().includes(busca) || (ev.descricao||'').toLowerCase().includes(busca);
+    const matchMes = !mes || ev.dataInicio.split('-')[1] === mes.padStart(2,'0');
+    return matchBusca && matchMes;
+  });
+  const base = getEventos().filter(ev => ev.editavel === false);
+  container.innerHTML = '';
+  if (filtrados.length === 0 && base.filter(ev => {
+    const matchBusca = !busca || ev.nome.toLowerCase().includes(busca);
+    const matchMes = !mes || ev.dataInicio.split('-')[1] === mes.padStart(2,'0');
+    return matchBusca && matchMes;
+  }).length === 0) {
+    container.innerHTML = '<div style="color:#aaa;font-size:13px;padding:10px;">Nenhum evento encontrado.</div>';
+    return;
+  }
+  const mostrar = [
+    ...base.filter(ev => {
+      const matchBusca = !busca || ev.nome.toLowerCase().includes(busca) || (ev.descricao||'').toLowerCase().includes(busca);
+      const matchMes = !mes || ev.dataInicio.split('-')[1] === mes.padStart(2,'0');
+      return matchBusca && matchMes;
+    }),
+    ...filtrados
+  ].sort((a,b) => a.dataInicio.localeCompare(b.dataInicio));
+  mostrar.forEach(ev => {
+    const item = document.createElement('div');
+    item.className = 'admin-ev-item';
+    item.innerHTML = `
+      <div class="ev-dot" style="background:${getCor(ev.tipo)};width:10px;height:10px;border-radius:50%;flex-shrink:0;"></div>
+      <div class="ev-nome">${ev.nome}</div>
+      <div class="ev-data-txt">${formatData(ev.dataInicio)}</div>
+      ${ev.editavel !== false ? `
+        <button class="btn-secundario" style="padding:5px 10px;font-size:11px" onclick="editarEvento('${ev.id}')">✏️</button>
+        <button class="btn-danger" style="padding:5px 10px;font-size:11px" onclick="excluirEvento('${ev.id}')">🗑️</button>
+      ` : '<span style="font-size:10px;color:#aaa;padding:0 6px;">base</span>'}
+    `;
+    container.appendChild(item);
+  });
+}
+
+function excluirEvento(id) {
+  if (!confirm('Excluir este evento?')) return;
+  eventosCustom = eventosCustom.filter(ev => ev.id !== id);
+  salvarStorage();
+  renderAdminLista();
+  renderAnual();
+  renderMensal();
+  renderLista();
+}
+
+function editarEvento(id) {
+  const ev = eventosCustom.find(e => e.id === id);
+  if (!ev) return;
+  adminTab('adicionar');
+  document.getElementById('ev-nome').value = ev.nome;
+  document.getElementById('ev-data-inicio').value = ev.dataInicio;
+  document.getElementById('ev-data-fim').value = ev.dataFim || '';
+  document.getElementById('ev-tipo').value = ev.tipo;
+  document.getElementById('ev-descricao').value = ev.descricao || '';
+  excluirEvento(id);
+}
+
+function exportarCSV() {
+  const evs = getEventos().sort((a,b) => a.dataInicio.localeCompare(b.dataInicio));
+  let csv = 'Nome,Data Início,Data Fim,Tipo,Descrição\n';
+  evs.forEach(ev => {
+    csv += `"${ev.nome}","${ev.dataInicio}","${ev.dataFim||''}","${ev.tipo}","${(ev.descricao||'').replace(/"/g,"'")}"\n`;
+  });
+  const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'calendario_regina_celi_2026.csv';
+  link.click();
+}
+
+function imprimirCalendario() {
+  window.print();
+}
+
+// ====================================================
+// AUDITÓRIO
+// ====================================================
+
+const AUD_CAT_COR = {
+  projeto:  '#7b3fa0',
+  sme:      '#4a1a7a',
+  palestra: '#e07a20',
+  turma:    '#1565c0',
+  externo:  '#880e4f',
+  reuniao:  '#00695c',
+};
+const AUD_CAT_LABEL = {
+  projeto:  'Projeto Escolar',
+  sme:      'SME / Rede',
+  palestra: 'Palestra / Formação',
+  turma:    'Turma / Turno',
+  externo:  'Externo / Parceiro',
+  reuniao:  'Reunião',
+};
+const AUD_PUB_LABEL = {
+  comunidade: '🌍 Comunidade',
+  alunos:     '🎒 Alunos',
+  educadores: '👩‍🏫 Educadores',
+  familias:   '👨‍👩‍👧 Famílias',
+  sme:        '🏛️ SME (fechado)',
+  externo:    '🔗 Externo',
+  turno:      '🕐 Turno',
+};
+
+// Agendamentos base do auditório (pré-carregados)
+const AUD_BASE = [
+  {
+    id: 'au1',
+    titulo: '🎬 Exibição de Filmes — Turma da Mônica',
+    data: '2026-06-02',
+    horaInicio: '08:00',
+    horaFim: '17:00',
+    categoria: 'projeto',
+    publico: 'alunos',
+    responsavel: 'Direção / Equipe Pedagógica',
+    descricao: 'Exibição de filmes da Turma da Mônica como parte do Projeto 90 Anos de Maurício de Sousa. Sessões ao longo de todo o dia, para os dois turnos. Incluir turmas regulares e Classes Especiais. Uso de audiodescrição e Libras quando disponível.',
+    editavel: false,
+  },
+  {
+    id: 'au2',
+    titulo: '🏆 Caça ao Tesouro — Gincana Inclusiva (1º Turno)',
+    data: '2026-06-03',
+    horaInicio: '09:00',
+    horaFim: '10:00',
+    categoria: 'projeto',
+    publico: 'alunos',
+    responsavel: 'Equipe Pedagógica / Professores',
+    descricao: 'Etapa Caça ao Tesouro da Gincana Inclusiva Maurício de Sousa — 1º turno. Dinâmica no auditório com as equipes temáticas. Participação das Classes Especiais e AEE garantida com adaptações.',
+    editavel: false,
+  },
+  {
+    id: 'au3',
+    titulo: '🏆 Caça ao Tesouro — Gincana Inclusiva (2º Turno)',
+    data: '2026-06-03',
+    horaInicio: '13:00',
+    horaFim: '15:00',
+    categoria: 'projeto',
+    publico: 'alunos',
+    responsavel: 'Equipe Pedagógica / Professores',
+    descricao: 'Etapa Caça ao Tesouro da Gincana Inclusiva Maurício de Sousa — 2º turno. Dinâmica no auditório com as equipes temáticas.',
+    editavel: false,
+  },
+  {
+    id: 'au4',
+    titulo: '🏛️ Atividade SME — Dia 1 (Auditório reservado)',
+    data: '2026-06-09',
+    horaInicio: '08:00',
+    horaFim: '17:00',
+    categoria: 'sme',
+    publico: 'sme',
+    responsavel: 'Secretaria Municipal de Educação — Duque de Caxias',
+    descricao: 'Espaço reservado pela SME para atividade da rede municipal. Auditório indisponível para uso interno durante todo o dia.',
+    editavel: false,
+  },
+  {
+    id: 'au5',
+    titulo: '🏛️ Atividade SME — Dia 2 (Auditório reservado)',
+    data: '2026-06-10',
+    horaInicio: '08:00',
+    horaFim: '17:00',
+    categoria: 'sme',
+    publico: 'sme',
+    responsavel: 'Secretaria Municipal de Educação — Duque de Caxias',
+    descricao: 'Espaço reservado pela SME para atividade da rede municipal. Auditório indisponível para uso interno durante todo o dia.',
+    editavel: false,
+  },
+  {
+    id: 'au6',
+    titulo: '🧠 Palestra: Saúde Emocional — Educadores',
+    data: '2026-06-11',
+    horaInicio: '10:00',
+    horaFim: '12:00',
+    categoria: 'palestra',
+    publico: 'educadores',
+    responsavel: 'Psicólogo Educacional José Jorge Machado / Direção',
+    descricao: 'Palestra sobre saúde emocional e bem-estar no trabalho destinada aos educadores da escola. Abordagem de prevenção ao burnout, escuta ativa e autocuidado. Presença de todos os educadores da unidade.',
+    editavel: false,
+  },
+  {
+    id: 'au7',
+    titulo: '🧠 Palestra: Saúde Emocional — Famílias',
+    data: '2026-06-11',
+    horaInicio: '13:00',
+    horaFim: '15:00',
+    categoria: 'palestra',
+    publico: 'familias',
+    responsavel: 'Psicólogo Educacional José Jorge Machado / Orientadora Educacional Elaine Gomes',
+    descricao: 'Palestra sobre saúde emocional para os familiares e responsáveis dos educandos. Temas: apoio emocional em casa, comunicação com crianças sobre emoções, sinais de alerta e como buscar ajuda.',
+    editavel: false,
+  },
+];
+
+let audMesAtual = 5; // junho = índice 5
+
+function getAgendamentos() {
+  return [...AUD_BASE, ...audAgendamentosCustom].sort((a,b) => {
+    if (a.data !== b.data) return a.data.localeCompare(b.data);
+    return a.horaInicio.localeCompare(b.horaInicio);
+  });
+}
+
+function getAgendamentosDoMes(mes) {
+  const prefixo = `2026-${String(mes+1).padStart(2,'0')}`;
+  return getAgendamentos().filter(a => a.data.startsWith(prefixo));
+}
+
+function renderAuditorio() {
+  // Atualizar stats
+  const todos = getAgendamentos();
+  const hoje = new Date();
+  const hojeStr = `${hoje.getFullYear()}-${String(hoje.getMonth()+1).padStart(2,'0')}-${String(hoje.getDate()).padStart(2,'0')}`;
+  const proximos = todos.filter(a => a.data >= hojeStr);
+  const mesPrefixo = `2026-${String(new Date().getMonth()+1).padStart(2,'0')}`;
+  const doMes = todos.filter(a => a.data.startsWith(mesPrefixo));
+  document.getElementById('aud-stat-total').textContent = todos.length;
+  document.getElementById('aud-stat-mes').textContent = doMes.length;
+  document.getElementById('aud-stat-proximos').textContent = proximos.length;
+
+  // Mostrar botão novo apenas se logado
+  document.getElementById('aud-novo-btn-wrap').style.display = loggedIn ? 'block' : 'none';
+
+  // Título do mês na timeline
+  document.getElementById('aud-mes-titulo').textContent = `${NOMES_MESES[audMesAtual]} 2026`;
+
+  // Timeline
+  renderAudTimeline();
+
+  // Próximos
+  renderAudProximos();
+}
+
+function renderAudTimeline() {
+  const body = document.getElementById('aud-timeline-body');
+  body.innerHTML = '';
+  const agsMes = getAgendamentosDoMes(audMesAtual);
+
+  if (agsMes.length === 0) {
+    body.innerHTML = '<div class="aud-vazio">🎭<br>Nenhum agendamento para este mês.<br><span style="font-size:11px">Use a área da Direção para adicionar.</span></div>';
+    return;
+  }
+
+  // Agrupar por dia
+  const porDia = {};
+  agsMes.forEach(a => {
+    if (!porDia[a.data]) porDia[a.data] = [];
+    porDia[a.data].push(a);
+  });
+
+  Object.keys(porDia).sort().forEach(data => {
+    const [, , d] = data.split('-');
+    const dataObj = new Date(data + 'T12:00:00');
+    const nomeDia = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'][dataObj.getDay()];
+    const grupo = document.createElement('div');
+    grupo.className = 'aud-dia-grupo';
+    const label = document.createElement('div');
+    label.className = 'aud-dia-label';
+    label.textContent = `${nomeDia}, ${+d} de ${NOMES_MESES[audMesAtual]}`;
+    grupo.appendChild(label);
+    porDia[data].forEach(ag => {
+      const slot = document.createElement('div');
+      slot.className = `aud-slot cat-${ag.categoria}`;
+      slot.innerHTML = `
+        <div class="aud-slot-hora" style="background:${AUD_CAT_COR[ag.categoria]||'#7b3fa0'}">
+          ${ag.horaInicio}<div class="hora-ate">${ag.horaFim}</div>
+        </div>
+        <div class="aud-slot-info">
+          <h4>${ag.titulo}</h4>
+          <p>${ag.responsavel || ''}</p>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:4px;">
+            <span class="aud-pub-badge pub-${ag.publico}">${AUD_PUB_LABEL[ag.publico]||ag.publico}</span>
+            <span class="aud-pub-badge" style="background:#f0e8ff;color:#4a1a7a">${AUD_CAT_LABEL[ag.categoria]||ag.categoria}</span>
+          </div>
+        </div>
+      `;
+      slot.onclick = () => abrirAudDetalhe(ag.id);
+      grupo.appendChild(slot);
+    });
+    body.appendChild(grupo);
+  });
+}
+
+function renderAudProximos() {
+  const lista = document.getElementById('aud-proximos-lista');
+  lista.innerHTML = '';
+  const hoje = new Date();
+  const hojeStr = `${hoje.getFullYear()}-${String(hoje.getMonth()+1).padStart(2,'0')}-${String(hoje.getDate()).padStart(2,'0')}`;
+  const proximos = getAgendamentos().filter(a => a.data >= hojeStr).slice(0, 8);
+  if (proximos.length === 0) {
+    lista.innerHTML = '<div style="padding:20px;text-align:center;color:#bbb;font-size:12px;">Nenhum agendamento futuro.</div>';
+    return;
+  }
+  proximos.forEach(ag => {
+    const [, m, d] = ag.data.split('-');
+    const item = document.createElement('div');
+    item.className = 'aud-proximo-item';
+    item.innerHTML = `
+      <div class="aud-proximo-data" style="background:${AUD_CAT_COR[ag.categoria]||'#7b3fa0'}">
+        <div class="pd">${+d}</div>
+        <div class="pm">${NOMES_MESES[+m-1].substring(0,3)}</div>
+      </div>
+      <div class="aud-proximo-info">
+        <h4>${ag.titulo}</h4>
+        <p>${ag.horaInicio}–${ag.horaFim} · ${AUD_PUB_LABEL[ag.publico]||''}</p>
+      </div>
+    `;
+    item.onclick = () => {
+      audMesAtual = +m - 1;
+      renderAudTimeline();
+      document.getElementById('aud-mes-titulo').textContent = `${NOMES_MESES[audMesAtual]} 2026`;
+      abrirAudDetalhe(ag.id);
+    };
+    lista.appendChild(item);
+  });
+}
+
+function audNavMes(delta) {
+  audMesAtual = Math.max(0, Math.min(11, audMesAtual + delta));
+  document.getElementById('aud-mes-titulo').textContent = `${NOMES_MESES[audMesAtual]} 2026`;
+  renderAudTimeline();
+}
+
+function abrirAudDetalhe(id) {
+  const ag = getAgendamentos().find(a => a.id === id);
+  if (!ag) return;
+  const [, m, d] = ag.data.split('-');
+  const dataObj = new Date(ag.data + 'T12:00:00');
+  const nomeDia = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'][dataObj.getDay()];
+  document.getElementById('aud-det-titulo').textContent = '🎭 Auditório';
+  document.getElementById('aud-det-sub').textContent = `${nomeDia}, ${+d} de ${NOMES_MESES[+m-1]} 2026`;
+  const body = document.getElementById('aud-det-body');
+  body.innerHTML = `
+    <div class="aud-painel-slot">
+      <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
+        <span class="aud-pub-badge" style="background:${AUD_CAT_COR[ag.categoria]||'#7b3fa0'};color:white;font-size:11px;padding:3px 10px;border-radius:20px">${AUD_CAT_LABEL[ag.categoria]||ag.categoria}</span>
+        <span class="aud-pub-badge pub-${ag.publico}">${AUD_PUB_LABEL[ag.publico]||ag.publico}</span>
+      </div>
+      <h3>${ag.titulo}</h3>
+      <div class="aud-painel-meta">
+        <span>📅 ${nomeDia}, ${+d} de ${NOMES_MESES[+m-1]} de 2026</span>
+        <span>🕐 ${ag.horaInicio} – ${ag.horaFim}</span>
+        ${ag.responsavel ? `<span>👤 ${ag.responsavel}</span>` : ''}
+      </div>
+      ${ag.descricao ? `<div class="aud-painel-desc">${ag.descricao}</div>` : ''}
+      ${loggedIn && ag.editavel !== false ? `
+        <div style="display:flex;gap:8px;margin-top:14px;">
+          <button class="btn-secundario" onclick="editarAgendamentoAud('${ag.id}')">✏️ Editar</button>
+          <button class="btn-danger" onclick="excluirAgendamentoAud('${ag.id}')">🗑️ Excluir</button>
+        </div>
+      ` : (ag.editavel === false ? '<div style="font-size:11px;color:#aaa;margin-top:10px;">Agendamento base — edição restrita.</div>' : '')}
+    </div>
+    <!-- Outros agendamentos do mesmo dia -->
+    ${(() => {
+      const outros = getAgendamentos().filter(a => a.data === ag.data && a.id !== ag.id);
+      if (!outros.length) return '';
+      return `<div style="margin-top:10px;"><p style="font-size:12px;font-weight:600;color:#7b3fa0;margin-bottom:8px;">Outros agendamentos neste dia:</p>${outros.map(o => `
+        <div style="background:#f0e8ff;border-radius:8px;padding:10px;margin-bottom:6px;cursor:pointer;font-size:12px" onclick="abrirAudDetalhe('${o.id}')">
+          <strong>${o.horaInicio}–${o.horaFim}</strong> · ${o.titulo}
+        </div>`).join('')}</div>`;
+    })()}
+  `;
+  document.getElementById('aud-detalhe-overlay').classList.add('open');
+  document.getElementById('aud-detalhe-painel').classList.add('open');
+}
+
+function fecharAudDetalhe() {
+  document.getElementById('aud-detalhe-overlay').classList.remove('open');
+  document.getElementById('aud-detalhe-painel').classList.remove('open');
+}
+
+function audNovoAgendamento() {
+  abrirAdmin();
+  setTimeout(() => adminTab('auditorio'), 100);
+}
+
+function salvarAgendamentoAud() {
+  const titulo = document.getElementById('aud-titulo').value.trim();
+  const data = document.getElementById('aud-data').value;
+  const hi = document.getElementById('aud-hora-inicio').value;
+  const hf = document.getElementById('aud-hora-fim').value;
+  const cat = document.getElementById('aud-categoria').value;
+  const pub = document.getElementById('aud-publico').value;
+  const resp = document.getElementById('aud-responsavel').value.trim();
+  const desc = document.getElementById('aud-descricao').value.trim();
+  if (!titulo || !data || !hi || !hf) {
+    document.getElementById('aud-form-erro').classList.add('visivel');
+    return;
+  }
+  document.getElementById('aud-form-erro').classList.remove('visivel');
+  const id = 'aud-c' + Date.now();
+  audAgendamentosCustom.push({ id, titulo, data, horaInicio: hi, horaFim: hf, categoria: cat, publico: pub, responsavel: resp, descricao: desc, editavel: true });
+  salvarStorage();
+  document.getElementById('aud-form-sucesso').style.display = 'block';
+  setTimeout(() => document.getElementById('aud-form-sucesso').style.display = 'none', 2500);
+  limparFormAud();
+  renderAudAdminLista();
+  renderAuditorio();
+}
+
+function limparFormAud() {
+  document.getElementById('aud-titulo').value = '';
+  document.getElementById('aud-data').value = '2026-06-01';
+  document.getElementById('aud-hora-inicio').value = '09:00';
+  document.getElementById('aud-hora-fim').value = '12:00';
+  document.getElementById('aud-categoria').value = 'projeto';
+  document.getElementById('aud-publico').value = 'comunidade';
+  document.getElementById('aud-responsavel').value = '';
+  document.getElementById('aud-descricao').value = '';
+}
+
+function excluirAgendamentoAud(id) {
+  if (!confirm('Excluir este agendamento?')) return;
+  audAgendamentosCustom = audAgendamentosCustom.filter(a => a.id !== id);
+  salvarStorage();
+  fecharAudDetalhe();
+  renderAuditorio();
+  renderAudAdminLista();
+}
+
+function editarAgendamentoAud(id) {
+  const ag = audAgendamentosCustom.find(a => a.id === id);
+  if (!ag) return;
+  fecharAudDetalhe();
+  abrirAdmin();
+  setTimeout(() => {
+    adminTab('auditorio');
+    document.getElementById('aud-titulo').value = ag.titulo;
+    document.getElementById('aud-data').value = ag.data;
+    document.getElementById('aud-hora-inicio').value = ag.horaInicio;
+    document.getElementById('aud-hora-fim').value = ag.horaFim;
+    document.getElementById('aud-categoria').value = ag.categoria;
+    document.getElementById('aud-publico').value = ag.publico;
+    document.getElementById('aud-responsavel').value = ag.responsavel || '';
+    document.getElementById('aud-descricao').value = ag.descricao || '';
+    excluirAgendamentoAud(id);
+  }, 150);
+}
+
+function renderAudAdminLista() {
+  const container = document.getElementById('aud-admin-lista');
+  if (!container) return;
+  const todos = getAgendamentos();
+  if (!todos.length) { container.innerHTML = '<div style="color:#aaa;font-size:12px">Nenhum agendamento.</div>'; return; }
+  container.innerHTML = '';
+  todos.forEach(ag => {
+    const [, m, d] = ag.data.split('-');
+    const item = document.createElement('div');
+    item.className = 'admin-ev-item';
+    item.innerHTML = `
+      <div style="width:10px;height:10px;border-radius:50%;background:${AUD_CAT_COR[ag.categoria]||'#7b3fa0'};flex-shrink:0"></div>
+      <div class="ev-nome" style="flex:1;font-size:12px">${ag.titulo}</div>
+      <div class="ev-data-txt">${+d}/${m} ${ag.horaInicio}</div>
+      ${ag.editavel !== false ? `
+        <button class="btn-secundario" style="padding:4px 9px;font-size:11px" onclick="editarAgendamentoAud('${ag.id}')">✏️</button>
+        <button class="btn-danger" style="padding:4px 9px;font-size:11px" onclick="excluirAgendamentoAud('${ag.id}')">🗑️</button>
+      ` : '<span style="font-size:10px;color:#aaa;padding:0 6px">base</span>'}
+    `;
+    container.appendChild(item);
+  });
+}
+
+// ====================================================
+// HELPERS
+// ====================================================
+function getCor(tipo) {
+  const cores = {
+    feriado: '#c0392b',
+    institucional: '#1565c0',
+    projeto: '#1a5c38',
+    comemorativo: '#e07a20',
+    pedagogico: '#6a1b9a',
+    reuniao: '#00695c',
+    recesso: '#546e7a',
+    formacao: '#4527a0',
+  };
+  return cores[tipo] || '#888';
+}
+
+function formatData(dateStr) {
+  const [a,m,d] = dateStr.split('-');
+  return `${d}/${m}/${a}`;
+}
+
+// ====================================================
+// INIT
+// ====================================================
+renderAnual();
+renderMensal();
+// Mostrar indicador de dados salvos se houver
+(function() {
+  const total = eventosCustom.length + audAgendamentosCustom.length;
+  if (total > 0) {
+    const tag = document.createElement('div');
+    tag.style.cssText = 'position:fixed;bottom:14px;left:14px;background:#1a5c38;color:white;font-size:11px;padding:6px 12px;border-radius:20px;z-index:50;opacity:0.85;font-family:DM Sans,sans-serif;';
+    tag.textContent = `💾 ${total} dado(s) salvo(s) localmente`;
+    document.body.appendChild(tag);
+    setTimeout(() => tag.style.opacity = '0', 3000);
+    setTimeout(() => tag.remove(), 3500);
+  }
+})();
+</script>
+</body>
+</html>
