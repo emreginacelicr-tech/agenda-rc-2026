@@ -1487,7 +1487,7 @@ function renderAnual() {
       const cel = document.createElement('div');
       cel.className = 'mini-dia';
       if (d === 1 && primeiroDia > 0) {
-        cel.style.gridColumnStart = primeiroDia + 1;
+        cel.style.gridColumnStart = primeiroDia;
       }
       cel.textContent = d;
       if (evDia.length > 0) {
@@ -1553,7 +1553,7 @@ function renderMensal() {
     cel.className = 'cal-cell';
     // Posicionar o primeiro dia na coluna correta
     if (d === 1 && primeiroDia > 0) {
-      cel.style.gridColumnStart = primeiroDia + 1;
+      cel.style.gridColumnStart = primeiroDia;
     }
     const temFeriado = evDia.some(e => e.tipo === 'feriado');
     const temRecesso = evDia.some(e => e.tipo === 'recesso');
