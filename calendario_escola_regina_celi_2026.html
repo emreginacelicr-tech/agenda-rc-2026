@@ -116,8 +116,9 @@
   .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
 
   /* ===== VIEWS ===== */
-  .view { display: none; padding: 24px 28px; }
+  .view { display: none; padding: 16px 12px; }
   .view.active { display: block; }
+  .cal-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
   /* ===== VISÃO GERAL / ANUAL ===== */
   .anual-grid {
@@ -230,35 +231,34 @@
     box-shadow: var(--sombra);
     overflow: hidden;
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    width: 100%;
   }
   .cal-dias-header {
     display: contents;
-    background: var(--verde);
-    color: white;
   }
   .cal-dia-header {
     background: var(--verde);
     color: white;
     text-align: center;
-    padding: 10px 4px;
+    padding: 10px 2px;
     font-family: 'Syne', sans-serif;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
   }
   .cal-body {
     display: contents;
   }
   .cal-cell {
-    min-height: 100px;
+    min-height: 90px;
     border-right: 1px solid #eee;
     border-bottom: 1px solid #eee;
-    padding: 6px;
+    padding: 4px;
     position: relative;
-    vertical-align: top;
     cursor: pointer;
     transition: background 0.1s;
+    overflow: hidden;
   }
   .cal-cell:hover { background: #f9fde8; }
   .cal-cell.outro-mes { opacity: 0.32; pointer-events: none; }
@@ -905,6 +905,7 @@
     <div class="legenda-item"><div class="legenda-cor" style="background:#00695c"></div>Reunião</div>
     <div class="legenda-item"><div class="legenda-cor" style="background:#4527a0"></div>Formação</div>
   </div>
+  <div class="cal-wrap">
   <div class="cal-grid">
     <div class="cal-dias-header">
       <div class="cal-dia-header">DOM</div>
@@ -916,6 +917,7 @@
       <div class="cal-dia-header">SÁB</div>
     </div>
     <div class="cal-body" id="cal-body"></div>
+  </div>
   </div>
 </div>
 
