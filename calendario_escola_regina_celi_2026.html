@@ -229,14 +229,17 @@
     border-radius: 14px;
     box-shadow: var(--sombra);
     overflow: hidden;
-  }
-  .cal-dias-header {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
+  }
+  .cal-dias-header {
+    display: contents;
     background: var(--verde);
     color: white;
   }
   .cal-dia-header {
+    background: var(--verde);
+    color: white;
     text-align: center;
     padding: 10px 4px;
     font-family: 'Syne', sans-serif;
@@ -245,8 +248,7 @@
     letter-spacing: 0.5px;
   }
   .cal-body {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    display: contents;
   }
   .cal-cell {
     min-height: 100px;
@@ -1486,8 +1488,8 @@ function renderAnual() {
       const evDia = getEventosDoDia(dateStr);
       const cel = document.createElement('div');
       cel.className = 'mini-dia';
-      if (d === 1 && primeiroDia > 0) {
-        cel.style.gridColumnStart = primeiroDia;
+      if (d === 1) {
+        cel.style.gridColumnStart = primeiroDia === 0 ? 1 : primeiroDia + 1;
       }
       cel.textContent = d;
       if (evDia.length > 0) {
@@ -1551,9 +1553,9 @@ function renderMensal() {
     const evDia = getEventosDoDia(dateStr);
     const cel = document.createElement('div');
     cel.className = 'cal-cell';
-    // Posicionar o primeiro dia na coluna correta
-    if (d === 1 && primeiroDia > 0) {
-      cel.style.gridColumnStart = primeiroDia;
+    // Posicionar o primeiro dia na coluna correta (DOM=col1, SEG=col2, ... SAB=col7)
+    if (d === 1) {
+      cel.style.gridColumnStart = primeiroDia === 0 ? 1 : primeiroDia + 1;
     }
     const temFeriado = evDia.some(e => e.tipo === 'feriado');
     const temRecesso = evDia.some(e => e.tipo === 'recesso');
