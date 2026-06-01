@@ -1481,14 +1481,14 @@ function renderAnual() {
     });
     const primeiroDia = new Date(2026, m, 1).getDay();
     const diasNoMes = new Date(2026, m+1, 0).getDate();
-    for (let i = 0; i < primeiroDia; i++) {
-      const vazio = document.createElement('div'); diasGrid.appendChild(vazio);
-    }
     for (let d = 1; d <= diasNoMes; d++) {
       const dateStr = `2026-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
       const evDia = getEventosDoDia(dateStr);
       const cel = document.createElement('div');
       cel.className = 'mini-dia';
+      if (d === 1 && primeiroDia > 0) {
+        cel.style.gridColumnStart = primeiroDia + 1;
+      }
       cel.textContent = d;
       if (evDia.length > 0) {
         cel.classList.add('tem-evento');
@@ -1541,21 +1541,20 @@ function renderMensal() {
   titulo.textContent = `${NOMES_MESES[mesAtual]} 2026`;
   const body = document.getElementById('cal-body');
   body.innerHTML = '';
-  const primeiroDia = new Date(2026, mesAtual, 1).getDay();
+  const primeiroDia = new Date(2026, mesAtual, 1).getDay(); // 0=Dom
   const diasNoMes = new Date(2026, mesAtual+1, 0).getDate();
   const hoje = new Date();
   const hoje2026 = (hoje.getFullYear() === 2026) ? hoje : null;
 
-  for (let i = 0; i < primeiroDia; i++) {
-    const cel = document.createElement('div');
-    cel.className = 'cal-cell outro-mes';
-    body.appendChild(cel);
-  }
   for (let d = 1; d <= diasNoMes; d++) {
     const dateStr = `2026-${String(mesAtual+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const evDia = getEventosDoDia(dateStr);
     const cel = document.createElement('div');
     cel.className = 'cal-cell';
+    // Posicionar o primeiro dia na coluna correta
+    if (d === 1 && primeiroDia > 0) {
+      cel.style.gridColumnStart = primeiroDia + 1;
+    }
     const temFeriado = evDia.some(e => e.tipo === 'feriado');
     const temRecesso = evDia.some(e => e.tipo === 'recesso');
     if (temFeriado) cel.classList.add('feriado-cell');
